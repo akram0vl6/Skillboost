@@ -1,0 +1,10 @@
+body{
+  margin: 0;
+}
+
+.app{
+    display: flex;
+}
+.auth-container {
+  all: unset; /* Сбрасывает стили */
+}

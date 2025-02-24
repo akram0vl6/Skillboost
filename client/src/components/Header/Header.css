@@ -1,0 +1,82 @@
+.header {
+  /* width: 100%;  */
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+}
+
+.header li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.header li a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.header ul li.active {
+  color: #9333ea;
+  background-color: #f3f0ff;
+}
+
+.header li:hover {
+  background-color: #f3f4f6;
+}
+
+.header button {
+  margin-right: 50px;
+  background-color: #9333ea;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.header button:hover {
+  background-color: #7e22ce;
+}
+
+.user {
+  margin-right: 50px;
+  width: 40px; /* Задай нужный размер */
+  height: 40px;
+  border-radius: 50%; /* Делаем круглую рамку */
+  overflow: hidden; /* Обрезает всё, что выходит за границы */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ccc; /* Рамка */
+}
+
+.user img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Масштабирует изображение без искажений */
+}
