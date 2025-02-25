@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 
 const Auth = () => {
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [error, setError] = useState()
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [error, setError] = useState();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleForm = () => {
     if (!email) {
@@ -33,13 +33,13 @@ const Auth = () => {
     }
   }, []);
   const handlePost = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!handleForm()) {
-      return
+      return;
     }
 
-    try{
+    try {
       const res = await fetch("http://localhost:4444/api/auth/login", {
         method: "POST",
         headers: {
@@ -48,25 +48,24 @@ const Auth = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json()
-      console.log(data)
+      const data = await res.json();
+      console.log(data);
       if (res.ok) {
         localStorage.setItem("data", JSON.stringify(data));
-        navigate('/home')
-      } else{
+        navigate("/home");
+      } else {
         setError(data.message);
       }
-
-    }catch(e){
-      console.log(e)
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
   return (
     <div className="login-container">
       <div className="login-left">
-        <h1 className="logo">Yeahub</h1>
-        <p className="tagline">Yeahub connects IT specialists</p>
+        <h1 className="logo">EasyDev</h1>
+        <p className="tagline">EasyDev connects IT specialists</p>
         <ul className="benefits">
           <li>✓ Step-by-step learning plan</li>
           <li>✓ Career growth</li>
@@ -80,11 +79,21 @@ const Auth = () => {
         <form className="login-form" onSubmit={handlePost}>
           <label>
             Email
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+            />
           </label>
           <label>
             Password
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+            />
           </label>
           <div className="error">{error}</div>
           <div className="forgot-password">Forgot password?</div>

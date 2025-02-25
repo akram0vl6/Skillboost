@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import './Auth.css'
-import {useNavigate} from 'react-router-dom'
+import "./Auth.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -8,7 +8,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleForm = () => {
     if (!email) {
@@ -54,7 +54,7 @@ const Register = () => {
         body: JSON.stringify({ email, fullName, password }), // Исправлено: теперь используем fullName
       });
 
-      const data = await res.json()
+      const data = await res.json();
       if (res.ok) {
         console.log("Success");
         localStorage.setItem("data", JSON.stringify(data));
@@ -70,8 +70,8 @@ const Register = () => {
   return (
     <div className="login-container">
       <div className="login-left">
-        <h1 className="logo">Yeahub</h1>
-        <p className="tagline">Yeahub connects IT specialists</p>
+        <h1 className="logo">EasyDev</h1>
+        <p className="tagline">EasyDev connects IT specialists</p>
         <ul className="benefits">
           <li>✓ Step-by-step learning plan</li>
           <li>✓ Career growth</li>

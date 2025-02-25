@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <div className="header">
-      <h1>YeaHub</h1>
+      <h1>EasyDev</h1>
       <ul>
         <li className={location.pathname === "/home/dashboard" ? "active" : ""}>
           <Link to="/home/dashboard">
