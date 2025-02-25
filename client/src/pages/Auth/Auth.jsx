@@ -64,8 +64,8 @@ const Auth = () => {
   return (
     <div className="login-container">
       <div className="login-left">
-        <h1 className="logo">EasyDev</h1>
-        <p className="tagline">EasyDev connects IT specialists</p>
+        <h1 className="logo">Skillboost</h1>
+        <p className="tagline">Skillboost connects IT specialists</p>
         <ul className="benefits">
           <li>✓ Step-by-step learning plan</li>
           <li>✓ Career growth</li>
