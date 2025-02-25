@@ -1,0 +1,12 @@
+.questions {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.questions .li{
+    font-size: 25px;
+}

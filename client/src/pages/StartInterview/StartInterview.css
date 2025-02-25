@@ -1,0 +1,99 @@
+.interview-container {
+  display: flex;
+  margin: 70px 0px 0px 20px;
+  width: 900px;
+}
+
+.interview-settings {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.interview-p{
+  font-size: 20px;
+  color: black;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.settings-option {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.settings-option span {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.counter button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: #6c63ff;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.counter span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.category-options {
+  display: flex;
+  gap: 10px;
+}
+
+.category-options button {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background: #5750d7;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.category-options .active {
+  background: #6c63ff;
+  color: white;
+  border-color: #6c63ff;
+}
+
+.start-button {
+  width: 100%;
+  padding: 12px;
+  background: #6c63ff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  background: #5750d7;
+}

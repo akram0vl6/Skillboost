@@ -1,9 +1,10 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
-import Auth from "../Auth/Auth";
-import Home from "../Home/Home";
-import Register from "../Auth/Register";
-import Header from "../Header/Header";
+
+import Auth from "../../pages/Auth/Auth.jsx";
+import Home from "../../pages/Home/Home.jsx";
+import Register from "../../pages/Auth/Register.jsx";
+import Header from "../Header/Header.jsx";
 
 const App = () => {
   const location = useLocation();

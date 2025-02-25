@@ -1,0 +1,90 @@
+.main{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.results-container {
+  margin-top: 70px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  width: 100%;
+}
+
+.h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.row{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.p {
+  font-size: 28px;
+  margin: 10px 20px 10px 0px;
+}
+.circular-progress {
+  position: relative;
+  width: 200px; /* Было 120px */
+  height: 200px; /* Было 120px */
+  margin: 20px auto;
+}
+
+.svg {
+  transform: rotate(-90deg);
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #f44336;
+  stroke-width: 12; /* Толщина фона */
+}
+
+.circle {
+  fill: none;
+  stroke-width: 12; /* Толщина линий */
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.6s ease-in-out;
+}
+
+.know {
+  stroke: #6200ea;
+}
+
+
+.percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px; /* Было 18px */
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-results{
+  display: flex;
+  justify-content: end;
+}
+
+.butn{
+  margin-right: 20px;
+    padding: 12px;
+  background: #6c63ff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  transition: all 0.3s ease ;
+  cursor: pointer;
+}
+
+.butn:hover{
+  background: #5750d7;
+}
