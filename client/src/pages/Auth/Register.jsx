@@ -68,58 +68,82 @@ const Register = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-left">
-        <h1 className="logo">Skillboost</h1>
-        <p className="tagline">Skillboost connects IT specialists</p>
-        <ul className="benefits">
-          <li>✓ Step-by-step learning plan</li>
-          <li>✓ Career growth</li>
-          <li>✓ Large community of specialists</li>
-          <li>✓ Learning with a mentor</li>
-          <li>✓ Internship opportunities</li>
-        </ul>
+<div className="min-h-screen flex items-center justify-center bg-[var(--bg-main)] px-4 py-12">
+  <div className="w-full max-w-md bg-[var(--bg-02)] rounded-2xl shadow-xl p-8">
+    <h1 className="text-3xl font-bold text-center text-[var(--color-text)]">
+      Добро пожаловать в <span className="text-[#049666]">Skillboost</span>
+    </h1>
+
+    <h2 className="text-lg font-semibold text-center text-gray-600 dark:text-gray-300 mt-6 mb-4">
+      Регистрация
+    </h2>
+
+    <form onSubmit={handlePost} method="POST" className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          value={email}
+          name="email"
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Введите ваш email"
+          className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-[var(--color-text)] bg-[var(--bg-03)] focus:outline-none focus:ring-2 focus:ring-[#049666]"
+        />
       </div>
-      <div className="login-right">
-        <h2>Register</h2>
-        <form className="login-form" method="POST" onSubmit={handlePost}>
-          <label>
-            Email
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-            />
-          </label>
-          <label>
-            Name
-            <input
-              type="text"
-              value={fullName} // Исправлено: теперь используем fullName
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Enter your name"
-            />
-          </label>
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-            />
-          </label>
-          <div className="error">{error}</div>
-          <button type="submit" className="login-button">
-            Register
-          </button>
-        </form>
-        <div className="register-link">
-          Already have an account? <a href="/auth">Login</a>
-        </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Имя
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+          placeholder="Введите ваше имя"
+          className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-[var(--color-text)] bg-[var(--bg-03)] focus:outline-none focus:ring-2 focus:ring-[#049666]"
+        />
       </div>
-    </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Пароль
+        </label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Придумайте пароль"
+          className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-[var(--color-text)] bg-[var(--bg-03)] focus:outline-none focus:ring-2 focus:ring-[#049666]"
+        />
+      </div>
+
+      {error && (
+        <div className="text-sm text-red-500 font-medium">{error}</div>
+      )}
+
+      <button
+        type="submit"
+        className="w-full py-3 mt-2 rounded-xl bg-[#049666] hover:bg-[#037a53] text-white font-semibold transition duration-300"
+      >
+        Зарегистрироваться
+      </button>
+    </form>
+
+    <p className="text-sm text-center mt-6 text-gray-500 dark:text-gray-400">
+      Уже есть аккаунт?{" "}
+      <a
+        href="/auth"
+        className="text-[#049666] hover:underline font-semibold"
+      >
+        Войти
+      </a>
+    </p>
+  </div>
+</div>
+
   );
 };
 

@@ -12,12 +12,15 @@ class QuestionController {
 
   async createQuestion(req, res) {
     try {
-      const { title, question, answer, category, difficulty } = req.body;
+      const { title, question, answer, category, technologies, frameworks, level ,difficulty  } = req.body;
       const newQuestion = new Question({
         title,
         question,
         answer,
         category,
+        technologies,
+        frameworks,
+        level,
         difficulty,
       });
       const savedQuestion = await newQuestion.save();
@@ -38,18 +41,53 @@ class QuestionController {
     }
   }
 
-  async catigoryquestion(req, res) {
-      try {
-        const { count = 5, category = "Frontend" } = req.query;
-        const questions = await Question.aggregate([
-          { $match: { category } },
-          { $sample: { size: Number(count) } },
-        ]);
-        res.json(questions);
-      } catch (error) {
-        res.status(500).json({ message: "Ошибка загрузки вопросов", error });
-      }
+async catigoryquestion(req, res) {
+  try {
+    const {
+      count = 5,
+      category,
+      technologies,
+      frameworks,
+      level
+    } = req.query;
+
+    const filter = {};
+
+    if (category) {
+      filter.category = { $regex: `^${category}$`, $options: "i" };
+    }
+
+    if (technologies && frameworks) {
+      filter.$or = [
+        { technologies: { $regex: `^${technologies}$`, $options: "i" } },
+        { frameworks: { $regex: `^${frameworks}$`, $options: "i" } }
+      ];
+    } else if (technologies) {
+      filter.technologies = { $regex: `^${technologies}$`, $options: "i" };
+    } else if (frameworks) {
+      filter.frameworks = { $regex: `^${frameworks}$`, $options: "i" };
+    }
+
+    if (level) {
+      filter.level = { $regex: `^${level}$`, $options: "i" };
+    }
+
+    console.log("Фильтр для поиска:", filter);
+
+    const questions = await Question.aggregate([
+      { $match: filter },
+      { $sample: { size: Number(count) } }
+    ]);
+
+    res.json(questions);
+  } catch (error) {
+    console.error("Ошибка загрузки вопросов", error);
+    res.status(500).json({ message: "Ошибка загрузки вопросов", error });
   }
+}
+
+
+
 }
 
 module.exports = new QuestionController();

@@ -1,5 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
-*{
-  font-family: 'Roboto', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+/* 1. Tailwind base */
+@import "tailwindcss";
+
+/* 2. Твои переменные и базовые стили */
+
+:root {
+  --color-main: #049666;
+  --bg-footer: #049666;
+  --color-base: #020420;
+  --bg-main: #ffff;
+  --color-text: #020420;
+  --color-accent: #E5E5E5;
+    --bg-02: #ffff ;
+    --bg-03: #ECEEF1 ;
+  --text-1: "Druk Wide Bold", sans-serif;
+}
+
+.dark {
+  --color-main: #049666;
+  --bg-slate: #04f5a3;
+  --bg-main: #020420; /* тёмный фон */
+  --color-text: #ffffff; /* светлый текст */
+  --color-accent: #1C1E37;
+  --bg-02: #1B1D36 ;
+  --bg-footer: #1B1D36 ;
+  --bg-03: #0F112B ;
+  --p-01:
+}
+
+/* 3. Tailwind components */
+
+/* 6. Шрифт */
+* {
+  font-family: "Roboto", sans-serif;
+  /* position: absolute; */
+}
+
+.h1 {
+  font-family: "Russo One", sans-serif;
+  /* position: ; */
+  
 }

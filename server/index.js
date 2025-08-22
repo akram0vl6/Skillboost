@@ -5,9 +5,10 @@ const router = require("./Router/router");
 const cors = require("cors");
 
 const PORT = 4444;
-const URL = "mongodb://localhost:27017/YeaHub02";
+const URL = "mongodb+srv://akramovakramov32:5G8bBpKYGlvAl4I7@cluster1.u1mby92.mongodb.net/?retryWrites=true&w=majority&appName=Cluster1";
 const app = express();
-
+// 
+// akramovakramov32
 app.use(
   cors({
     origin: "http://localhost:5173", // Разрешаем запросы только с твоего клиента
