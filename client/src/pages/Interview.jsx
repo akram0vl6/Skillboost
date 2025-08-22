@@ -20,27 +20,28 @@ const Interview = () => {
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
-const [bookmarks, setBookmarks] = useState(() => {
-  // Загружаем из localStorage при первом рендере
-  const saved = localStorage.getItem("bookmarks");
-  return saved ? JSON.parse(saved) : [];
-});
+  const [bookmarks, setBookmarks] = useState(() => {
+    // Загружаем из localStorage при первом рендере
+    const saved = localStorage.getItem("bookmarks");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-const toggleBookmark = (question) => {
-  const id = question._id;
-  let updated;
-  if (bookmarks.includes(id)) {
-    updated = bookmarks.filter(qid => qid !== id);
-  } else {
-    updated = [...bookmarks, id];
-  }
-  setBookmarks(updated);
-  localStorage.setItem("bookmarks", JSON.stringify(updated));
-};
+  const toggleBookmark = (question) => {
+    const id = question._id;
+    let updated;
+    if (bookmarks.includes(id)) {
+      updated = bookmarks.filter((qid) => qid !== id);
+    } else {
+      updated = [...bookmarks, id];
+    }
+    setBookmarks(updated);
+    localStorage.setItem("bookmarks", JSON.stringify(updated));
+  };
 
-
-const currentQuestion = questions[currentIndex];
-const isBookmarked = currentQuestion ? bookmarks.includes(currentQuestion._id) :true;
+  const currentQuestion = questions[currentIndex];
+  const isBookmarked = currentQuestion
+    ? bookmarks.includes(currentQuestion._id)
+    : true;
 
   // const [bookmark, setBookmark] = useState([]);
   const [stats, setStats] = useState({ know: 0, dontKnow: 0 });
@@ -63,60 +64,73 @@ const isBookmarked = currentQuestion ? bookmarks.includes(currentQuestion._id) :
       console.error("Ошибка загрузки вопросов", error);
     }
   };
-// console.log(stats);
+  // console.log(stats);
 
-useEffect(() => {
-  console.log("Обновлён knowQuestions:", knowQuestions);
-}, [knowQuestions]);
+  useEffect(() => {
+    console.log("Обновлён knowQuestions:", knowQuestions);
+  }, [knowQuestions]);
 
-useEffect(() => {
-  console.log("Обновлён dontKnowQuestions:", dontKnowQuestions);
-}, [dontKnowQuestions]);
+  useEffect(() => {
+    console.log("Обновлён dontKnowQuestions:", dontKnowQuestions);
+  }, [dontKnowQuestions]);
 
+  const handleAnswer = ({ know, question }) => {
+    const questionStatus = {
+      id: question.id,
+      question,
+      stats: know ? "know" : "dontKnow",
+    };
 
-  const handleAnswer = ({know, question}) => {
     const updatedStats = {
       know: know ? stats.know + 1 : stats.know,
       dontKnow: !know ? stats.dontKnow + 1 : stats.dontKnow,
-      questions: [...stats.question || [], question.question]
+      questions: [...(stats.questions || []), questionStatus], // сохраняем старые + добавляем новый
     };
 
- if (know) {
-    setKnowQuestions(prev => [...prev, question]); // ✅ всегда добавит к актуальному массиву
-  } else {
-    setDontKnowQuestions(prev => [...prev, question]); // ✅ аналогично
-  }
+    if (know) {
+      setKnowQuestions((prev) => [...prev, question]); // ✅ всегда добавит к актуальному массиву
+    } else {
+      setDontKnowQuestions((prev) => [...prev, question]); // ✅ аналогично
+    }
 
-    
     setStats(updatedStats);
-    
-  console.log(`Вопрос: ${question.question}, Ответ: ${know ? "Знаю" : "Не знаю"}`);
 
+    console.log(
+      `Вопрос: ${question.question}, Ответ: ${know ? "Знаю" : "Не знаю"}`
+    );
 
     //   console.log(knowQuestions);
     // console.log(dontKnowQuestions);
-    
 
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex((prev) => prev + 1);
       setShowAnswer(false);
     } else {
       localStorage.setItem("stats", JSON.stringify(updatedStats));
-    localStorage.setItem("know", JSON.stringify([...knowQuestions, know ? question : null].filter(Boolean)));
-    localStorage.setItem("dontKnow", JSON.stringify([...dontKnowQuestions, !know ? question : null].filter(Boolean)));
-    navigate("/results");
+      localStorage.setItem(
+        "know",
+        JSON.stringify(
+          [...knowQuestions, know ? question : null].filter(Boolean)
+        )
+      );
+      localStorage.setItem(
+        "dontKnow",
+        JSON.stringify(
+          [...dontKnowQuestions, !know ? question : null].filter(Boolean)
+        )
+      );
+      navigate("/results");
     }
   };
 
   console.log(isBookmarked);
-  
 
   const open = () => {
     setShowAnswer(true);
   };
 
   if (questions.length === 0) {
-    return <p>Загрузка вопросов...</p>;
+    return <p className="h-[100vh]">Загрузка вопросов...</p>;
   }
 
   return (
@@ -133,13 +147,14 @@ useEffect(() => {
             />
           ) : (
             <BsBookmark
-              className="text-[20px] cursor-pointer"
+              className="text-[20px] cursor-pointer text-[var(--color-text)]"
               onClick={() => toggleBookmark(questions[currentIndex])}
             />
-            
           )}
         </div>
-        <p className="mb-2 text-[var(--color-text)]">{questions[currentIndex].question}</p>
+        <p className="mb-2 text-[var(--color-text)]">
+          {questions[currentIndex].question}
+        </p>
         <div
           onClick={() => setIsOpen(!isOpen)}
           className="flex items-center cursor-pointer mb-2 gap-2"
@@ -174,14 +189,18 @@ useEffect(() => {
         <div className="flex gap-5 mt-4">
           <button
             className="  text-[var(--color-text)] flex items-center gap-2 border-2 border-[var(--color-text)] rounded-lg px-2 py-1 cursor-pointer hover:border-[var(--color-main)] hover:text-[var(--color-main)] duration-300 "
-            onClick={() => handleAnswer({ know: true, question: currentQuestion })}
+            onClick={() =>
+              handleAnswer({ know: true, question: currentQuestion })
+            }
           >
             <AiFillLike className="btn-icon" />
             Знаю
           </button>
           <button
-            className=" text-[var(--color-text)]  flex items-center gap-2 border-2 border-[var(--color-text)] rounded-lg px-2 py-1 cursor-pointer hover:border-[red] hover:text-[red] duration-300 "
-            onClick={() => handleAnswer({ know: false, question: currentQuestion })}
+            className=" text-[var(--color-text)]  flex items-center gap-2 border-2 border-[var(--color-text)] rounded-lg px-2 py-1 cursor-pointer hover:border-[#ff0000] hover:text-[red] duration-300 "
+            onClick={() =>
+              handleAnswer({ know: false, question: currentQuestion })
+            }
           >
             <AiFillDislike className="btn-icon" />
             Не знаю

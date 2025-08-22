@@ -57,7 +57,7 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setMobileMenuOpen(false); // Закрыть, если клик вне
+        setIsOpen(false); // Закрыть, если клик вне
       }
     };
 
@@ -72,7 +72,7 @@ const Header = () => {
 
     useEffect(() => {
     if (mobileMenuOpen) {
-      setMobileMenuOpen(false);
+      setIsOpen(false);
     }
   }, [location.pathname])
 
