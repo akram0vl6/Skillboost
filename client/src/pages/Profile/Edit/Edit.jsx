@@ -4,9 +4,11 @@ import axios from "axios";
 import { IoIosArrowDown } from "react-icons/io";
 import "./Edit.css";
 
-const Edit = () => {
+const Edit = ( {setEdit} ) => {
   const navigate = useNavigate();
   const storedData = JSON.parse(localStorage.getItem("data")) || {};
+
+
 
   const [name, setName] = useState(storedData.fullName || "");
   const [image, setImage] = useState(null);
@@ -14,8 +16,19 @@ const Edit = () => {
   const [openInput, setOpenInput] = useState(null);
 
   const [specialization, setSpecialization] = useState("");
-  const [grade, setGrade] = useState("");
-  const [skills, setSkills] = useState([]);
+  // const [grade, setGrade] = useState("");
+  // const [skills, setSkills] = useState([]);
+
+    const [form, setForm] = useState({
+    fullName: storedData.fullName || "",
+    username: storedData.username || "",
+    location: storedData.location || "",
+    email: storedData.email || "",
+    bio: storedData.bio || "",
+    skills : [],
+    grade: "" ,
+    specialization: "" ,
+  });
 
   const inputs = [
     {
@@ -55,7 +68,7 @@ const Edit = () => {
 
   // const [skills, setSkills] = useState([]);
   // const [openInput, setOpenInput] = useState(false);
-    const wrapperRef = useRef(null);
+  const wrapperRef = useRef(null);
 
   // Закрытие при клике вне
   useEffect(() => {
@@ -69,25 +82,37 @@ const Edit = () => {
   }, [setOpenInput]);
 
   const inputSkills = (value) => {
-    setSkills((prev) => (prev.includes(value) ? prev : [...prev, value]));
+    setForm((prev) => ({
+      ...prev,
+      skills: prev.skills.includes(value)
+        ? prev.skills
+        : [...prev.skills, value],
+    }));
   };
 
   const removeSkill = (value) => {
-    setSkills((prev) => prev.filter((skill) => skill !== value));
+    setForm((prev) => ({
+      ...prev,
+      skills: prev.skills.filter((skill) => skill !== value),
+    }));
   };
 
   const handleSelect = (inputId, value) => {
     console.log(`Выбранное значение для ${inputId}:`, value);
     console.log("hi");
 
+   
+  // setForm(prev => ({ ...prev, [inputId]: value }));
+  setOpenInput(null);
+
     if (inputId === 1) {
-      setSpecialization(value);
+      setForm(prev => ({ ...prev, specialization: value }));
     }
     if (inputId === 2) {
-      setGrade(value);
+      setForm(prev => ({ ...prev, grade: value }));
     }
     if (inputId === 3) {
-      setSkills((prev) => [...prev, value]);
+      setForm(prev => ({ ...prev, skills: value }));
     }
     setOpenInput(null); // закрыть список
   };
@@ -96,49 +121,48 @@ const Edit = () => {
 
   // Обрабатываем загрузку фото
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    e.preventDefault();
+    console.log(form, "form");
+    handleSave();
 
-    setImage(file);
+    // const file = e.target.files[0];
+    // if (!file) return;
 
-    // Создаем превью фото
-    const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result);
-    reader.readAsDataURL(file);
+    // setImage(file);
+
+    // // Создаем превью фото
+    // const reader = new FileReader();
+    // reader.onload = () => setPreview(reader.result);
+    // reader.readAsDataURL(file);
   };
 
   // Отправляем данные на сервер
-  const handleSave = async () => {
-    const formData = new FormData();
-    formData.append("fullName", name);
-    if (image) formData.append("avatarUrl", image);
+const handleSave = async () => {
+  try {
+    const res = await axios.put(
+      "http://localhost:4444/api/profile/edit",
+      form,
+      {
+        headers: {
+          Authorization: `Bearer ${storedData.token}`,
+        },
+        withCredentials: true,
+      }
+    );
 
-    try {
-      const res = await axios.put(
-        "http://localhost:4444/api/profile/edit",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${storedData.token}`,
-          },
-          withCredentials: true,
-        }
-      );
+    const updatedData = {
+      ...storedData,
+      ...res.data,
+    };
 
-      // Обновляем данные в localStorage
-      const updatedData = {
-        ...storedData,
-        fullName: res.data.fullName,
-        avatarUrl: res.data.avatarUrl,
-      };
-      localStorage.setItem("data", JSON.stringify(updatedData));
+    localStorage.setItem("data", JSON.stringify(updatedData));
+    console.log("Профиль успешно обновлен");
+    setEdit(false);
+  } catch (error) {
+    console.error("Ошибка сохранения:", error);
+  }
+};
 
-      navigate("/home/profile");
-    } catch (error) {
-      console.error("Ошибка сохранения:", error);
-    }
-  };
 
   return (
     <div
@@ -201,15 +225,15 @@ const Edit = () => {
                 <input
                   type="text"
                   className="border-2 border-[var(--color-text)] text-md p-2 pr-8 rounded-lg w-full
-                     hover:border-[var(--color-main)]
-                     focus:border-[var(--color-main)] focus:outline-none
-                     transition-colors duration-200"
-                  name="name"
-                  data-p=""
-                  data-pc-name="inputtext"
-                  pc1_69=""
-                  data-pc-section="root"
-                  value={storedData.fullName || ""}
+             hover:border-[var(--color-main)]
+             focus:border-[var(--color-main)] focus:outline-none
+             transition-colors duration-200"
+                  name="fullName"
+                  value={form.fullName}
+                  onChange={(e) =>
+                    setForm({ ...form, fullName: e.target.value })
+                  }
+                  placeholder={storedData.fullName || ""}
                 />
               </label>
               <label className="w-full flex flex-col gap-1">
@@ -225,7 +249,11 @@ const Edit = () => {
                   data-pc-name="inputtext"
                   pc1_70=""
                   data-pc-section="root"
-                  value={storedData.username || "Гость"}
+                  value={form.username}
+                  onChange={(e) =>
+                    setForm({ ...form, username: e.target.value })
+                  }
+                  placeholder={storedData.username || "Гость"}
                 />
               </label>
               <label className="w-full flex flex-col gap-1">
@@ -241,7 +269,11 @@ const Edit = () => {
                   data-pc-name="inputtext"
                   pc1_71=""
                   data-pc-section="root"
-                  value={storedData.location || "Не указано"}
+                  value={form.location}
+                  onChange={(e) =>
+                    setForm({ ...form, location: e.target.value })
+                  }
+                  placeholder={storedData.location || "Не указано"}
                 />
               </label>
               <label className="w-full flex flex-col gap-1">
@@ -258,7 +290,11 @@ const Edit = () => {
                   data-pc-name="inputtext"
                   pc1_72=""
                   data-pc-section="root"
-                  value={storedData.email || "Не указан"}
+                  value={form.email}
+                  onChange={(e) =>
+                    setForm({ ...form, email: e.target.value })
+                  }
+                  placeholder={storedData.email || "Не указан"}
                 />
               </label>
             </section>
@@ -276,6 +312,9 @@ const Edit = () => {
               data-pc-name="textarea"
               pc1_73=""
               data-pc-section="root"
+              value={form.bio}
+              onChange={(e) => setForm({ ...form, bio: e.target.value })}
+              placeholder={storedData.bio || "Расскажите о себе..."}
             ></textarea>
           </section>
           <section className="flex flex-col gap-3 border border-st-gray-20 dark:border-st-gray-60 rounded-2xl px-4 py-3 md:p-4 text-[var(--color-text)]">
@@ -293,10 +332,10 @@ const Edit = () => {
                     <input
                       value={
                         input.id === 1
-                          ? specialization
+                          ? form.specialization
                           : input.id === 2
-                          ? grade
-                          : skills
+                          ? form.grade
+                          : form.skills
                       }
                       className={`border-2  cursor-pointer  border-[var(--color-text)] text-md p-2 pr-8 rounded-lg w-full
                      hover:border-[var(--color-main)]
@@ -309,24 +348,24 @@ const Edit = () => {
                                    }`}
                       name="bio"
                       type="text"
+                      
                     />
                     <IoIosArrowDown className="absolute right-2 top-[25px] -translate-y-1/2 text-st-gray-50 pointer-events-none" />
                   </div>
                   <div ref={wrapperRef}>
-
-                  {openInput === input.id && (
-                    <ul className="absolut overflow-hidden left-0 right-0 mt-1 bg-[var(--bg-03)] border border-[var(--color-text)] text-[var(--color-text)] rounded-lg shadow-md z-10">
-                      {input.options.map((option) => (
-                        <li
-                          key={option}
-                          className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
-                          onClick={() => handleSelect(input.id, option)}
-                        >
-                          {option}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                    {openInput === input.id && (
+                      <ul className="absolut overflow-hidden left-0 right-0 mt-1 bg-[var(--bg-03)] border border-[var(--color-text)] text-[var(--color-text)] rounded-lg shadow-md z-10">
+                        {input.options.map((option) => (
+                          <li
+                            key={option}
+                            className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+                            onClick={() => handleSelect(input.id, option)}
+                          >
+                            {option}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               ))}
@@ -340,7 +379,7 @@ const Edit = () => {
                      transition-colors duration-200 "
                   onClick={() => setOpenInput(openInput === 3 ? null : 3)}
                 >
-                  {skills.map((skill) => (
+                  {form.skills.map((skill) => (
                     <span
                       key={skill}
                       className="bg-[var(--bg-02)] text-[var(--color-text)] px-2 py-0.5 rounded flex items-center gap-1"
@@ -363,7 +402,10 @@ const Edit = () => {
 
                 {/* Выпадающий список */}
                 {openInput === 3 && (
-                  <ul ref={wrapperRef} className="absolut overflow-hidden left-0 right-0 mt-1 bg-[var(--bg-03)] border border-[var(--color-text)] text-[var(--color-text)] rounded-lg shadow-md z-10">
+                  <ul
+                    ref={wrapperRef}
+                    className="absolut overflow-hidden left-0 right-0 mt-1 bg-[var(--bg-03)] border border-[var(--color-text)] text-[var(--color-text)] rounded-lg shadow-md z-10"
+                  >
                     {skillsList.map((option) => (
                       <li
                         key={option}
@@ -388,7 +430,10 @@ const Edit = () => {
               {" "}
               Отменить изменения{" "}
             </button>
-            <button className="bg-[#09B87E] text-white rounded-lg px-4 py-2">
+            <button
+              onClick={handleImageChange}
+              className="bg-[#09B87E] text-white rounded-lg px-4 py-2"
+            >
               {" "}
               Сохранить изменения{" "}
             </button>

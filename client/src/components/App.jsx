@@ -31,7 +31,7 @@ const App = () => {
       {/* )} */}
 
       {/* Контент тоже в контейнере */}
-      <div className="w-full max-w-full sm:max-w-[640px] pt-5 md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="min-h-[100vh] w-full max-w-full sm:max-w-[640px] pt-5 md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
         <Routes>
           {/* <Route path="/" element={<Navigate to="/auth" replace />} /> */}
           <Route path="/" element={<Dashboard />} />

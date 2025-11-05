@@ -52,7 +52,7 @@ const Auth = () => {
       console.log(data);
       if (res.ok) {
         localStorage.setItem("data", JSON.stringify(data));
-        navigate("/home");
+        navigate("/");
       } else {
         setError(data.message);
       }

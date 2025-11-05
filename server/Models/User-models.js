@@ -6,6 +6,31 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    location: {
+      type: String,
+      default: "",  
+    },
+    specialization: {
+      type: String,
+      default: "",  
+    },
+    grade: {  
+      type: String,
+      default: "",  
+    },
+    skills: {
+      type: [String], 
+      default: [],  
+    },
+    bio: {
+      type: String,
+      default: "",  
+    },
     email: {
       type: String,
       required: true,
