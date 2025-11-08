@@ -14,6 +14,7 @@ import QuestionsSection from "../pages/QuestionsSection.js";
 import Profile from "../pages/Profile/Profile.jsx";
 import Interview from "../pages/Interview.jsx";
 import Results from "../pages/Results.jsx";
+import QuestionsPage from "../pages/QuestionsPage.jsx";
 
 const App = () => {
   const location = useLocation();
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/startInterview" element={<StartInterview />} />
           <Route path="/baza_voprosov" element={<QuestionsSection />} />
+          <Route path="/baza_voprosov/:tech" element={<QuestionsPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/interview" element={<Interview />} />
           <Route path="/results" element={<Results />} />
