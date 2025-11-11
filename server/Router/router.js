@@ -12,6 +12,9 @@ router.post("/auth/login", AuthController.login);
 router.get("/questionAll", QuestionController.getAllQuestions);
 router.get("/random", QuestionController.randamQuestion);
 router.get("/questions", QuestionController.catigoryquestion);
+router.get("/questionsTech", QuestionController.getQuestion);
+
+
 router.post("/question", QuestionController.createQuestion);
 
 router.put(

@@ -11,7 +11,7 @@ export default function QuestionsSection({}) {
 ];
 
   const frontendCards = [
-  { name: "Frontend", path: "frontend", title: "Подборка самых частых вопросов на собеседованиях фронтенд разработчикам" },
+  { name: "Frontend", path: "Frontend", img: "frontend",  title: "Подборка самых частых вопросов на собеседованиях фронтенд разработчикам" },
 ];
 
   return (
@@ -352,7 +352,7 @@ export default function QuestionsSection({}) {
                     <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
                       <img
                         className="w-full h-full object-contain"
-                        src={`./img/tehnalogi/${card.path}.webp`}
+                        src={`./img/tehnalogi/${card.img}.webp`}
                         alt={card.name}
                       />
                     </div>

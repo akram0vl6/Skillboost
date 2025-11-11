@@ -6,7 +6,11 @@ const Questions = () => {
   const [allQuestions, setAllQuestions] = useState([]);
   const [visibleAnswerIndex, setVisibleAnswerIndex] = useState(null); // Хранит индекс активного ответа
 
+
+  
+  
   useEffect(() => {
+    console.log(visibleAnswerIndex);
     fetchAllQuestions();
   }, []);
 
