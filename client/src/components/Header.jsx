@@ -11,13 +11,16 @@ import ThemeSwitcher from "../ui/ThemeSwitcher";
 import { use, useEffect, useRef, useState } from "react";
 import { IoIosContact } from "react-icons/io";
 
-const routes = [
+const linkList = [
   {
-    name: "Вопросы с собеседований",
-    path: ["/baza_voprosov", "/startInterview", "/podborki_voprosov"],
+    name: "База вопросов",
+    path: "/baza_voprosov",
   },
+  { name: "Тренажёр собеседований", path: "/startInterview" },
+  { name: "Топы вопросов", path: "/podborki_voprosov" },
   { name: "Лайв кодинг", path: "/coding" },
-  { name: "Обучение", path: "/podborki_voprosov" },
+  { name: "Роадмапы", path: "/roadmaps" },
+  { name: "Мой прогресс", path: "/progress" },
   { name: "Менторы", path: "/mentors" },
 ];
 const routes02 = [
@@ -33,13 +36,7 @@ const Header = () => {
   const storedRaw = localStorage.getItem("data");
   const storedData = storedRaw ? JSON.parse(storedRaw) : null;
 
-  const [routerData, setRouterData] = useState("");
 
-  // useEffect(() => {
-  //   setRouterData(location.pathname);
-  // }, []);
-
-  console.log(storedData);
 
   // const avatarUrl = storedData.avatarUrl ? storedData.avatarUrl : null;
 
@@ -220,6 +217,7 @@ const Header = () => {
                           <Link
                             key={path}
                             to={path}
+                            onClick={() => setIsOpen(false)}
                             className={
                               path === currentPath
                                 ? "text-[#09B87E] block font-normal px-4 py-2.5  hover:text-st-green-90 hover:bg-[var(--bg-02)] transition-colors dark:hover:text-white"
@@ -360,7 +358,7 @@ const Header = () => {
 
           {/* Навигация — mobile (выпадает вниз) */}
           {mobileMenuOpen && (
-            <div className="lg:hidden absolute top-0 left-0 w-full bg-[var(--bg-03)]  shadow-md p-4 z-40 space-y-3">
+            <div className="lg:hidden absolute top-0 left-0 w-full h-[100vh] bg-[var(--bg-03)]  shadow-md p-4 z-40 space-y-3">
               <div className="w-full flex justify-end">
                 <button
                   className="g:hidden flex items-center justify-center p-2 rounded-md text-[var(--color-text)] hover:bg-[var(--bg-02)] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--color-main)]"
@@ -385,7 +383,7 @@ const Header = () => {
               <div className="flex justify-between items-center  border-y-1 border-white py-2 px-3">
                 {storedData ? (
                   <div className="">
-                    <Link to="/profile">
+                    <Link onClick={() => setMobileMenuOpen(!mobileMenuOpen)} to="/profile">
                       <IoIosContact className="w-10 h-10" />
                     </Link>
                   </div>
@@ -416,54 +414,20 @@ const Header = () => {
                 </svg>
                 <h3 class="font-normal text-[var(--color-text)]">Премиум</h3>
               </Link>
-              <Link
-                to="/baza_voprosov"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                База вопросов
-              </Link>
-              <Link
-                to="/interviews"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                Тренажёр собеседований
-              </Link>
-              <Link
-                to="/podborki_voprosov"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                Топы вопросов
-              </Link>
-              <Link
-                to="/coding"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                Лайв кодинг
-              </Link>
-              <Link
-                to="/roadmaps"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                Роадмапы
-              </Link>
-              <Link
-                to="/progress"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                Мой прогресс
-              </Link>
-              <Link
-                to="/naparniki"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                Напарники
-              </Link>
-              <Link
-                to="/mentors"
-                className="block text-sm text-[var(--color-text)]"
-              >
-                Менторы
-              </Link>
+              
+              {linkList.map(({ name, path }) => (
+                <Link
+                  key={path}
+                  to={path}
+                          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className={`block text-sm text-[var(--color-text)]
+                  ${currentPath === path ? "text-[#09B87E] bg-[var(--bg-02)]" : "text-[var(--color-text)]"}`}
+                >
+                  {name}
+                </Link>
+              ))}
+
+              
             </div>
           )}
 

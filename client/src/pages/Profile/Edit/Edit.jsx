@@ -423,7 +423,7 @@ const handleSave = async () => {
           <section className="flex gap-3 justify-end mb-5">
             <button
               onClick={() => navigate(-1)}
-              className="border border-[var(--color-text)] rounded-lg px-4 py-2 text-[var(--color-text)]"
+              className="border border-[var(--color-text)] rounded-lg px-4 py-2 text-[var(--color-text)] cursor-pointer"
               data-p=""
               type="button"
             >
@@ -432,7 +432,7 @@ const handleSave = async () => {
             </button>
             <button
               onClick={handleImageChange}
-              className="bg-[#09B87E] text-white rounded-lg px-4 py-2"
+              className="bg-[#09B87E] text-white rounded-lg px-4 py-2 cursor-pointer"
             >
               {" "}
               Сохранить изменения{" "}
