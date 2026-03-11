@@ -23,7 +23,7 @@ const routes = [
 const routes02 = [
   { name: "База вопросов", path: "/baza_voprosov" },
   { name: "Тренажёр собеседований", path: "/startInterview" },
-  { name: "Топы вопросов", path: "/podborki_voprosov" },
+  // { name: "Топы вопросов", path: "/podborki_voprosov" },
 ];
 
 const Header = () => {
@@ -311,7 +311,7 @@ const Header = () => {
                     </ul>
                   </div>
 
-                  <Link
+                  {/* <Link
                     to="/mentors"
                     className={`px-3 cursor-pointer inline-flex items-center gap-1.5 py-2 rounded-lg
     hover:text-[var(--color-main)] hover:bg-[#EEFFF2] dark:hover:bg-slate-800
@@ -322,7 +322,7 @@ const Header = () => {
     }`}
                   >
                     Менторы
-                  </Link>
+                  </Link> */}
                 </article>
 
                 {/* <section className="hidden lg:flex items-center gap-3">

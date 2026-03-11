@@ -522,7 +522,7 @@ const Dashboard = () => {
 
                   <PopularQuestionsCarousel />
                   <TechnologyTopicsSection />
-                  <MentorsSection />
+                  {/* <MentorsSection /> */}
 
                   <section className="w-full flex flex-col md:flex-row justify-between bg-[#B352FF] rounded-[20px] md:px-7 md:pt-7 md:pb-0 pb-4 pt-4 px-4 gap-4 md:gap-3">
   <header className="w-full md:w-5/12 flex flex-col items-start gap-5 md:pb-7">

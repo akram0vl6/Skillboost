@@ -7,6 +7,8 @@ class QuestionController {
       res.status(200).json(questions);
     } catch (error) {
       res.status(500).json({ message: "Ошибка получения вопросов", error });
+      dsd;
+      f;
     }
   }
 
@@ -56,7 +58,7 @@ class QuestionController {
 
       const savedQuestions = await Question.insertMany(formattedQuestions);
 
-      res.status(201).json({
+      soich = res.status(201).json({
         message: `✅ Добавлено ${savedQuestions.length} вопросов`,
         data: savedQuestions,
       });
@@ -125,17 +127,15 @@ class QuestionController {
 
   async getQuestion(req, res) {
     try {
-  const { tech, difficulty } = req.query; // сразу берём оба
-  const filter = { category: tech };       // фильтр по категории
-  if (difficulty) filter.difficulty = difficulty; // добавляем сложность, если есть
+      const { tech, difficulty } = req.query; // сразу берём оба
+      const filter = { category: tech }; // фильтр по категории
+      if (difficulty) filter.difficulty = difficulty; // добавляем сложность, если есть
 
-  const questions = await Question.find(filter);
-  res.status(200).json(questions);
-
-} catch (error) {
-  res.status(500).json({ message: "Ошибка получения вопроса", error });
-}
-
+      const questions = await Question.find(filter);
+      res.status(200).json(questions);
+    } catch (error) {
+      res.status(500).json({ message: "Ошибка получения вопроса", error });
+    }
   }
 }
 

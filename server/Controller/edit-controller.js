@@ -4,8 +4,6 @@ class EditController {
   async edit(req, res) {
     try {
       const userId = req.userId;
-
-      // Все поля, которые могут прийти
       const {
         fullName,
         username,
@@ -16,11 +14,7 @@ class EditController {
         grade,
         specialization,
       } = req.body;
-
-      // Проверяем, если файл пришёл (через multer)
       let avatarUrl = req.file ? `/uploads/${req.file.filename}` : undefined;
-
-      // Собираем только те данные, что реально есть
       const updatedData = {};
 
       if (fullName) updatedData.fullName = fullName;
@@ -32,10 +26,8 @@ class EditController {
       if (grade) updatedData.grade = grade;
       if (specialization) updatedData.specialization = specialization;
       if (avatarUrl) updatedData.avatarUrl = avatarUrl;
-
-      // Обновляем пользователя
       const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {
-        new: true, // вернуть обновлённого пользователя
+        new: true, 
       });
 
       res.json(updatedUser);

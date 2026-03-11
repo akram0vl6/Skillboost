@@ -3,12 +3,18 @@ import { Link } from "react-router-dom";
 
 export default function QuestionsSection({}) {
   const backendCards = [
-  { name: "Python", path: "python" },
-  { name: "Java", path: "java" },
-  { name: "C#", path: "csharp" },
-  { name: "C++", path: "cpp" },
-  { name: "Golang", path: "golang" },
+  { name: "Python", path: "Python", title: "Один из самых популярных языков программирования. Легок в изучении и прост в применении.", img: "./img/tehnalogi/python.svg"  },
+  { name: "Java", path: "Java", title: " Кроссплатформенный язык программирования для разработки мобильных и веб-приложений", img: "./img/tehnalogi/java.webp"  },
+  { name: "C#", path: "Csharp", title: "C# — универсальный язык программирования от Microsoft, используемый для разработки приложений, игр и веб-сервисов на платформе .NET", img: "./img/tehnalogi/csharp.svg"  },
+  { name: "C++", path: "Cpp", title: "Мощный, универсальный язык для высокопроизводительных систем и приложений", img: "./img/tehnalogi/cpp.webp"  },
+  { name: "Golang", path: "Golang", title: "Быстрый, простой, безопасный язык для серверных приложений и микросервисов", img: "./img/tehnalogi/golang.webp" },
 ];
+
+  const OtherTechnologies = [
+    { name: 'Git', path: 'git', title: 'Программа для отслеживания и ведения истории изменения файлов в вашем проекте.', img: './img/tehnalogi/git.webp' },
+    { name: 'Docker', path: 'docker', title: 'Самая популярная программа для разработки, доставки и запуска контейнерных приложений.', img: './img/tehnalogi/docker.webp' },
+    { name: 'Computer Science', path: 'computer_science', title: 'Базовые знания по устройству компьютера, интернета и алгоритмов.', img: './img/tehnalogi/computer_science.webp' },
+  ]
 
   const frontendCards = [
   { name: "Frontend", path: "Frontend", img: "frontend",  title: "Подборка самых частых вопросов на собеседованиях фронтенд разработчикам" },
@@ -52,288 +58,44 @@ export default function QuestionsSection({}) {
             </h2>
           </div>
 
-          {/* <div className="mb-10 w-full relative">
+           <div className="mb-10 w-full relative">
             <h2 className="lg:text-4xl text-3xl font-bold mb-5">Backend</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {backendCards.map((card) => (
+
               <Link
-                to="/baza_voprosov/python"
+                to={`/baza_voprosov/${card.path}`}
                 className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме "
+                aria-label={`Перейти на базу вопросов по теме ${card.name}`}
               >
                 <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
                   <section className="flex gap-4">
                     <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
                       <img
                         className="w-full h-full object-contain"
-                        src="./img/tehnalogi/python.svg"
+                        src={`${card.img}`}
                         alt="Python"
                       />
                     </div>
                     <div className="max-w-[275px] flex-1">
                       <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        Python
+                        {card.name}
                       </h3>
                       <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        Один из самых популярных языков программирования. Легок
-                        в изучении и прост в применении.
+                        {card.title}
                       </p>
                     </div>
                   </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
-                </section>
-              </Link>
 
-              <Link
-                to="/baza_voprosov/java"
-                className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме "
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src="./img/tehnalogi/java.webp"
-                        alt="Python"
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        Java
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        Кроссплатформенный язык программирования для разработки
-                        мобильных и веб-приложений
-                      </p>
-                    </div>
-                  </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
                 </section>
               </Link>
+              ))}
 
-              <Link
-                to="/baza_voprosov/csharp"
-                className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме "
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src="./img/tehnalogi/csharp.svg"
-                        alt="Python"
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        C#
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        C# — универсальный язык программирования от Microsoft,
-                        используемый для разработки приложений, игр и
-                        веб-сервисов на платформе .NET
-                      </p>
-                    </div>
-                  </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
-                </section>
-              </Link>
 
-              <Link
-                to="/baza_voprosov/cpp"
-                className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме "
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src="./img/tehnalogi/cpp.webp"
-                        alt="Cpp"
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        C++
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        Мощный, универсальный язык для высокопроизводительных
-                        систем и приложений
-                      </p>
-                    </div>
-                  </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
-                </section>
-              </Link>
-
-              <Link
-                to="/baza_voprosov/golang"
-                className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме"
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src="./img/tehnalogi/golang.webp"
-                        alt="Golang"
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        Python
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        Быстрый, простой, безопасный язык для серверных
-                        приложений и микросервисов
-                      </p>
-                    </div>
-                  </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
-                </section>
-              </Link>
 
             </div>
 
-          </div> */}
+          </div> 
 
           {/* Frontend Section  */}
           <div className="mb-10 w-full relative">
@@ -365,34 +127,7 @@ export default function QuestionsSection({}) {
                       </p>
                     </div>
                   </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
+
                 </section>
               </Link>
             </div>
@@ -426,34 +161,7 @@ export default function QuestionsSection({}) {
                       </p>
                     </div>
                   </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
+
                 </section>
               </Link>
             </div>
@@ -465,168 +173,36 @@ export default function QuestionsSection({}) {
               Другие технологии
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {OtherTechnologies.map((card) => (
+
               <Link
-                to="/baza_voprosov/git"
+                to={`/baza_voprosov/${card.path}`}
                 className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме Git"
+                aria-label={`Перейти на базу вопросов по теме ${card.name}`}
               >
                 <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
                   <section className="flex gap-4">
                     <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
                       <img
                         className="w-full h-full object-contain"
-                        src="./img/tehnalogi/git.webp"
-                        alt="GIT"
+                        src={`${card.img}`}
+                        alt={card.name}
                       />
                     </div>
                     <div className="max-w-[275px] flex-1">
                       <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        Git
+                        {card.name}
                       </h3>
                       <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        Программа для отслеживания и ведения истории изменения
-                        файлов в вашем проекте.
+                        {card.title}
                       </p>
                     </div>
                   </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
+
                 </section>
               </Link>
-              <Link
-                to="/baza_voprosov/docker"
-                className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме Docker"
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src="./img/tehnalogi/docker.webp"
-                        alt="docker"
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        Docker
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        Самая популярная программа для разработки, доставки и
-                        запуска контейнерных приложений.
-                      </p>
-                    </div>
-                  </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
-                </section>
-              </Link>
-              <Link
-                to="/baza_voprosov/computer_science"
-                className="group/link duration-150"
-                aria-label="Перейти на базу вопросов по теме Computer Science"
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src="./img/tehnalogi/computer_science.webp"
-                        alt="computer_science"
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        Computer Science
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        Базовые знания по устройству компьютера, интернета и
-                        алгоритмов.
-                      </p>
-                    </div>
-                  </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
-                </section>
-              </Link>
+              ))}
+       
             </div>
           </div>
 
@@ -660,34 +236,7 @@ export default function QuestionsSection({}) {
                       </p>
                     </div>
                   </section>
-                  <section className="w-20 h-20 flex justify-center items-center relative">
-                    <svg className="transform -rotate-90 w-20 h-20">
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        className="text-white dark:text-gray-300"
-                      />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="32"
-                        stroke="currentColor"
-                        strokeWidth="12"
-                        fill="transparent"
-                        strokeDasharray="201.06192982974676"
-                        strokeDashoffset="201.06192982974676"
-                        strokeLinecap="round"
-                        className="text-[#09B87E]"
-                      />
-                    </svg>
-                    <span className="absolute text-xl text-st-black font-bold dark:text-gray-300">
-                      0
-                    </span>
-                  </section>
+
                 </section>
               </Link>
             </div>
