@@ -58,7 +58,7 @@ const Register = () => {
       if (res.ok) {
         console.log("Success");
         localStorage.setItem("data", JSON.stringify(data));
-        navigate("/home");
+        navigate("/profile");
       } else {
         setError(data.message);
       }

@@ -29,7 +29,7 @@ const Auth = () => {
   useEffect(() => {
     const storedData = localStorage.getItem("data");
     if (storedData) {
-      navigate("/"); // Если данные есть, сразу перенаправляем на главную
+      navigate("/profile"); // Если данные есть, сразу перенаправляем на главную
     }
   }, []);
   const handlePost = async (e) => {

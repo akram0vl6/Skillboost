@@ -12,10 +12,14 @@ const Interview = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // const questionCount = Number(searchParams.get("count")) || 5;
-  const category = searchParams.get("category") || "Frontend";
-  const tehnalogies = searchParams.get("technologies") || "React";
-  const frameworks = searchParams.get("frameworks") || "JavaScript";
-  const level = searchParams.get("level") || "Junior";
+  const category = searchParams.get("category") 
+  const tehnalogies = searchParams.get("technologies") 
+  const frameworks = searchParams.get("frameworks") 
+  const level = searchParams.get("level") 
+
+
+  console.log(category, tehnalogies, frameworks, level);
+  
 
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
