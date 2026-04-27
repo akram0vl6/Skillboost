@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
+import {dataCorusel} from '../data/technologies'
 
 export default function PopularQuestionsCarousel() {
   const carouselRef = useRef(null);
@@ -65,78 +66,7 @@ export default function PopularQuestionsCarousel() {
         className=" flex gap-5 pb-4 sm:pb-0 overflow-x-auto sm:overflow-x-hidden scrollbar-hide"
         aria-label="Список баз вопросов"
       >
-        {[
-          {
-            id: 24,
-            title: "Computer Science",
-            path: "computer_science",
-            img: "../../public/img/tehnalogi/computer_science.webp",
-            desc: "Компьютерные науки помогают создавать, анализировать и оптимизировать технологии.",
-          },
-          {
-            id: 23,
-            title: "Docker",
-            path: "docker",
-            img: "../../public/img/tehnalogi/docker.webp",
-            desc: "Топ вопросов для понимания Docker и ключевых концепций контейнеризации.",
-          },
-          {
-            id: 28,
-            title: "C++",
-            path: "cpp",
-            img: "/cplusplus.webp",
-            desc: "Топ вопросов по C++ для быстрого освоения ключевых концепций.",
-          },
-          {
-            id: 19,
-            title: "Python",
-            path: "python",
-            img: "../../public/img/tehnalogi/python.svg",
-            desc: "Часто задаваемые вопросы, ответы на которые обязан знать каждый Python разработчик.",
-          },
-          {
-            id: 21,
-            title: "Frontend",
-            path: "frontend",
-            img: "../../public/img/tehnalogi/frontend.webp",
-            desc: "Подборка самых частых вопросов на собеседованиях фронтенд разработчикам.",
-          },
-          {
-            id: 26,
-            title: "Java",
-            path: "java",
-            img: "../../public/img/tehnalogi/java.webp",
-            desc: "Лучшие вопросы по Java для подготовки к собеседованиям и изучения.",
-          },
-          {
-            id: 25,
-            title: "Golang",
-            path: "golang",
-            img: "../../public/img/tehnalogi/golang.webp",
-            desc: "Список популярных вопросов по Go для подготовки к техническим интервью.",
-          },
-          {
-            id: 27,
-            title: "C#",
-            path: "csharp",
-            img: "../../public/img/tehnalogi/csharp.svg",
-            desc: "Топ вопросов по C# для подготовки и углубления знаний в программировании.",
-          },
-          {
-            id: 20,
-            title: "SQL",
-            path: "sql",
-            img: "../../public/img/tehnalogi/database.webp",
-            desc: "SQL — мощный язык запросов для работы с СУБД. Каждый бэкендер должен знать эти вопросы.",
-          },
-          {
-            id: 22,
-            title: "Git",
-            path: "git",
-            img: "../../public/img/tehnalogi/git.webp",
-            desc: "Основные вопросы по Git для успешного прохождения технического собеседования.",
-          },
-        ].map(({ id, title, img, desc,path }) => (
+        {dataCorusel.map(({ id, title, img, desc,path }) => (
           <article
             key={id}
             className=" flex relative min-w-[240px] md:min-w-[330px] md:w-1/3 h-[232px] rounded-[20px] bg-[var(--bg-02)] dark:bg-st-white-T5 p-5 flex-col justify-between"

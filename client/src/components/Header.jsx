@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import ThemeSwitcher from "../ui/ThemeSwitcher";
 import { use, useEffect, useRef, useState } from "react";
 import { IoIosContact } from "react-icons/io";
-import {linkList, routes02} from "../data/headerData"
+import { linkList, routes02 } from "../data/headerData"
 
 
 
@@ -18,7 +18,7 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  const dropdownRef = useRef(null); 
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,17 +36,17 @@ const Header = () => {
     };
   }, [isOpen]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (mobileMenuOpen) {
       setIsOpen(false);
     }
   }, [location.pathname])
 
-  
+
 
   return (
     <>
-      <section className="top-0 z-50 w-full  shadow-sm">
+      <section className="top-0 z-50 w-full">
         <nav className="flex items-center justify-between min-h-[60px]">
           {/* Логотип */}
           <section className="text-2xl font-semibold">
@@ -93,37 +93,36 @@ const Header = () => {
                   <div className="group relative">
                     <button
                       className={`px-3 cursor-pointer inline-flex items-center gap-1.5 py-2 rounded-lg
-    hover:text-[var(--color-main)] hover:bg-[#EEFFF2] dark:hover:bg-slate-800
-    ${
-      ["/baza_voprosov", "/startInterview", "/podborki_voprosov"].includes(
-        currentPath
-      )
-        ? "text-[#09B87E] bg-[var(--bg-02)]"
-        : "text-[var(--color-text)]"
-    }`}
+    hover:text-[var(--color-main)] hover:bg-[var(--bg-03)] 
+    ${["/baza_voprosov", "/startInterview",].includes(
+                        currentPath
+                      )
+                          ? "text-[#09B87E] bg-[var(--bg-02)]"
+                          : "text-[var(--color-text)]"
+                        }`}
                       onClick={() => setIsOpen(!isOpen)}
                     >
                       Вопросы с собеседований
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`fill-st-black dark:fill-white icon mt-1 transition-transform duration-300 ${
-                          isOpen ? "rotate-180" : ""
-                        }`}
+                        className={`icon mt-1 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
                         width="13"
                         height="8"
                         viewBox="0 0 13 8"
                       >
-                        <path d="M6.5 7.4L0.5 1.4L1.9 0L6.5 4.6L11.1 0L12.5 1.4L6.5 7.4Z" />
+                        <path
+                          d="M6.5 7.4L0.5 1.4L1.9 0L6.5 4.6L11.1 0L12.5 1.4L6.5 7.4Z"
+                          fill="var(--color-text)"  
+                        />
                       </svg>
                     </button>
 
                     <div
                       ref={dropdownRef}
-                      className={`absolute top-12 left-0 w-full min-w-[200px] bg-[var(--bg-03)] border border-[#262840] dark:bg-surface-900 shadow-lg rounded-xl py-2 z-50 overflow-hidden transition-all duration-300 ease-in-out ${
-                        isOpen
-                          ? "opacity-100 scale-100 visible"
-                          : "opacity-0 scale-95 invisible"
-                      }`}
+                      className={`absolute top-12 left-0 w-full min-w-[200px] bg-[var(--bg-03)] border border-[#262840] dark:bg-surface-900 shadow-lg rounded-xl py-2 z-50 overflow-hidden transition-all duration-300 ease-in-out ${isOpen
+                        ? "opacity-100 scale-100 visible"
+                        : "opacity-0 scale-95 invisible"
+                        }`}
                     >
                       <ul className="flex flex-col">
                         {routes02.map(({ name, path }) => (
@@ -147,18 +146,17 @@ const Header = () => {
                   <Link
                     to="/coding"
                     className={`px-3 cursor-pointer inline-flex items-center gap-1.5 py-2 rounded-lg
-    hover:text-[var(--color-main)] hover:bg-[#EEFFF2] dark:hover:bg-slate-800
-    ${
-      currentPath === "/coding"
-        ? "text-[#09B87E] bg-[var(--bg-02)]"
-        : "text-[var(--color-text)]"
-    }`}
+    hover:text-[var(--color-main)] hover:bg-[var(--bg-03)]
+    ${currentPath === "/coding"
+                        ? "text-[#09B87E] bg-[var(--bg-02)]"
+                        : "text-[var(--color-text)]"
+                      }`}
                   >
                     Лайв кодинг
                   </Link>
 
                   <div className="group relative">
-                    <button className="px-3 cursor-pointer outline-none bg-transparent text-[var(--color-text)]  hover:text-[var(--color-main)]  focus:ring-1 inline-flex items-center gap-1.5 hover:!text-st-green-90 hover:bg-[#EEFFF2] dark:hover:bg-slate-800 py-2 rounded-lg transition-colors">
+                    <button className="px-3 cursor-pointer outline-none bg-transparent text-[var(--color-text)]  hover:text-[var(--color-main)]  focus:ring-1 inline-flex items-center gap-1.5 hover:!text-st-green-90 hover:bg-[var(--bg-03)] py-2 rounded-lg">
                       Обучение
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +165,7 @@ const Header = () => {
                         height="8"
                         viewBox="0 0 13 8"
                       >
-                        <path d="M6.5 7.4L0.5 1.4L1.9 0L6.5 4.6L11.1 0L12.5 1.4L6.5 7.4Z" />
+                        <path d="M6.5 7.4L0.5 1.4L1.9 0L6.5 4.6L11.1 0L12.5 1.4L6.5 7.4Z" fill="var(--color-text)"   />
                       </svg>
                     </button>
                     <ul className="absolute flex-col opacity-0 hidden transition top-12 left-0 w-full min-w-[200px] bg-white border dark:border-surface-700 dark:bg-surface-900 shadow-lg rounded-xl py-2">
@@ -244,7 +242,7 @@ const Header = () => {
                 {storedData ? (
                   <div className="">
                     <Link onClick={() => setMobileMenuOpen(!mobileMenuOpen)} to="/profile">
-                      <IoIosContact className="w-10 h-10" />
+                      <IoIosContact style={{ color: 'var(--color-text)' }} className="w-10 h-10" />
                     </Link>
                   </div>
                 ) : (
@@ -274,12 +272,12 @@ const Header = () => {
                 </svg>
                 <h3 class="font-normal text-[var(--color-text)]">Премиум</h3>
               </Link>
-              
+
               {linkList.map(({ name, path }) => (
                 <Link
                   key={path}
                   to={path}
-                          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className={`block text-sm text-[var(--color-text)]
                   ${currentPath === path ? "text-[#09B87E] bg-[var(--bg-02)]" : "text-[var(--color-text)]"}`}
                 >
@@ -287,7 +285,7 @@ const Header = () => {
                 </Link>
               ))}
 
-              
+
             </div>
           )}
 
@@ -312,7 +310,7 @@ const Header = () => {
             {storedData ? (
               <div className="">
                 <Link to="/profile">
-                  <IoIosContact className="w-10 h-10" />
+                  <IoIosContact style={{ color: 'var(--color-text)' }} className="w-10 h-10" />
                 </Link>
               </div>
             ) : (

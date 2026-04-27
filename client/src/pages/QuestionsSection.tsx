@@ -43,7 +43,7 @@ export default function QuestionsSection({}) {
         }}
       />
 
-      <div className="lg:px-0 max-w-5xl mx-auto px-4 py-5">
+      <div className="lg:px-0 max-w-5xl mx-auto px-4 py-5 text-[var(--color-text)]">
         <div className="flex flex-col md:items-start items-center">
           <div className="mb-5">
             <h1 className="lg:text-5xl text-4xl font-bold mb-5">

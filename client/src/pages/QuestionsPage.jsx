@@ -39,9 +39,9 @@ function QuestionsPage() {
     navigate(`?difficulty=${encodeURIComponent(level)}`); // обновляем URL
   };
   return (
-    <div>
+    <div className="text-[var(--color-text)]">
       <a href="/baza_voprosov" className="truncate">
-        <button className="flex items-center gap-1 text-sm text-st-gray-60 text-[var(--color-text)] cursor-pointer mb-4">
+        <button className="flex items-center gap-1 text-sm text-st-gray-60   cursor-pointer mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
@@ -66,21 +66,21 @@ function QuestionsPage() {
       </a>
 
       <div>
-        <h1 className="lg:text-5xl text-3xl font-bold mb-4 text-[var(--color-text)]">
+        <h1 className="lg:text-5xl text-3xl font-bold mb-4  ">
           ТОП вопросов по {tech}
         </h1>
-        <div className="text-xl text-[var(--color-text)]">
+        <div className="text-xl  ">
           Подборка самых частых вопросов на собеседованиях {tech} разработчикам
         </div>
       </div>
 
       <div className="flex flex-col gap-2 mt-4">
-        <p className="text-md font-medium text-[var(--color-text)]">
+        <p className="text-md font-medium  ">
           Выберите грейды
         </p>
         <div className="flex items-center gap-2 flex-wrap">
           {difficultyLevels.map((level) => (
-            <div onClick={() => handleDifficultyClick(level)} className="rounded-2xl p-1 px-3 text-md text-[var(--color-text)] bg-[var(--bg-03)] cursor-pointer hover:bg-[var(--bg-02)] flex gap-1 items-center transition-colors">
+            <div onClick={() => handleDifficultyClick(level)} className="rounded-2xl p-1 px-3 text-md   bg-[var(--bg-03)] cursor-pointer hover:bg-[var(--bg-02)] flex gap-1 items-center transition-colors">
               <span>{level}</span>
             </div>
           ))}
@@ -106,7 +106,7 @@ function QuestionsPage() {
 
         <input
           type="text"
-          className="p-inputtext p-component !px-10 w-full border border-[var(--color-border)] rounded-lg bg-[var(--bg-03)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent"
+          className="p-inputtext p-component !px-10 w-full border border-[var(--color-border)] rounded-lg bg-[var(--bg-03)]   focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent"
           placeholder="Введите название или содержание вопроса"
         />
       </section>
@@ -155,12 +155,12 @@ function QuestionsPage() {
                     </section>
                   </header>
 
-                  <div className="rounded-2xl p-0.5 px-3 w-fit font-medium text-base bg-[var(--bg-02)] text-[var(--color-text)]">
+                  <div className="rounded-2xl p-0.5 px-3 w-fit font-medium text-base bg-[var(--bg-02)]  ">
                     {question.difficulty}
                   </div>
                   <div>
                     Рейтинг вопроса:
-                    <span className="font-medium text-[var(--color-text)]">
+                    <span className="font-medium  ">
                       {question.rating}
                     </span>
                   </div>

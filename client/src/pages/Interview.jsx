@@ -29,7 +29,8 @@ const Interview = () => {
     const saved = localStorage.getItem("bookmarks");
     return saved ? JSON.parse(saved) : [];
   });
-
+  console.log(questions);
+  
   const toggleBookmark = (question) => {
     const id = question._id;
     let updated;
@@ -59,7 +60,7 @@ const Interview = () => {
   const fetchQuestions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4444/api/questions?category=${category}&technologies=${tehnalogies}&frameworks=${frameworks}&level=${level}`
+        `http://localhost:4444/api/questions?category=${category}&technologies=${tehnalogies}&level=${level}`
       );
       setQuestions(res.data);
       setCurrentIndex(0);
@@ -157,7 +158,7 @@ const Interview = () => {
           )}
         </div>
         <p className="mb-2 text-[var(--color-text)]">
-          {questions[currentIndex].question}
+          {questions[currentIndex].title}
         </p>
         <div
           onClick={() => setIsOpen(!isOpen)}

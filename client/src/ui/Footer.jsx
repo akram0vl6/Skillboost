@@ -54,7 +54,7 @@ const Footer = () => {
                 </section>
                 <section className="text-sm">
                   <a
-                    href="/interviews"
+                    href="/startInterview"
                     className="hover:text-white dark:text-st-gray-40 dark:hover:text-white transition-colors"
                   >
                     Собеседование
@@ -93,7 +93,7 @@ const Footer = () => {
               <nav className="flex-col flex gap-3">
                 <section className="text-sm">
                   <a
-                    href="https://t.me/solvit_support"
+                    href="https://t.me/skillboost"
                     rel="noopener noreferrer"
                     className="hover:text-white dark:text-st-gray-40 dark:hover:text-white transition-colors"
                   >
@@ -133,7 +133,7 @@ const Footer = () => {
               <nav className="flex-row flex gap-3">
                 <section className="text-sm">
                   <a
-                    href="https://t.me/solvit_edu"
+                    href="https://t.me/skillboost_edu"
                     target="_blank"
                     aria-label="Ссылка на Телеграм"
                   >

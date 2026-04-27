@@ -1,19 +1,7 @@
 import React from 'react';
+import { technologies } from '../data/technologies';
 
-const technologies = [
-  { img: '../../public/img/tehnalogi/python.svg', href: '/baza_voprosov/python', name: 'Python' },
-  { img: '../../public/img/tehnalogi/java.webp', href: '/baza_voprosov/java', name: 'Java' },
-  { img: '../../public/img/tehnalogi/csharp.svg', href: '/baza_voprosov/csharp', name: 'C#' },
-  { img: '../../public/img/tehnalogi/?.svg', href: '/baza_voprosov/cpp', name: 'C++' },
-  { img: '../../public/img/tehnalogi/golang.webp', href: '/baza_voprosov/golang', name: 'Golang' },
-  { img: '../../public/img/tehnalogi/javascript.webp', href: '/baza_voprosov/javascript', name: 'JavaScript' },
-  { img: '../../public/img/tehnalogi/?.svg', href: '/baza_voprosov/html', name: 'HTML' },
-  { img: '../../public/img/tehnalogi/?.svg', href: '/baza_voprosov/css', name: 'CSS' },
-  { img: '../../public/img/tehnalogi/database.webp', href: '/baza_voprosov/sql', name: 'SQL' },
-  { img: '../../public/img/tehnalogi/git.webp', href: '/baza_voprosov/git', name: 'Git' },
-  { img: '../../public/img/tehnalogi/docker.webp', href: '/baza_voprosov/docker', name: 'Docker' },
-  { img: '../../public/img/tehnalogi/computer_science.webp', href: '/baza_voprosov/computer_science', name: 'Computer Science' },
-];
+
 
 const TechnologyTopicsSection = () => {
   return (

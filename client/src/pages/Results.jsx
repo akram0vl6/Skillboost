@@ -138,7 +138,7 @@ const Results = () => {
                 >
                   <div className="flex mb-2 items-center gap-3">
                     <span
-                      className={`inline-block w-4 h-4 rounded-full ${
+                      className={`inline-block w-4 h-4 rounded-full min-w-4 ${
                         q.stats === "know"
                           ? "bg-[var(--color-main)]"
                           : "bg-[#ff0000]"
@@ -147,7 +147,7 @@ const Results = () => {
                     <h3 className="text-2xl">{q.question.title}</h3>
                   </div>
 
-                  <span
+                  {/* <span
                     className={`py-1 px-2 rounded-2xl ${
                       q.question.level === "Junior"
                         ? "bg-[#02263F] text-[#01B0BB]"
@@ -159,7 +159,7 @@ const Results = () => {
                     }`}
                   >
                     {q.question.level}
-                  </span>
+                  </span> */}
 
                   <p className="mt-2">{q.question.question}</p>
 

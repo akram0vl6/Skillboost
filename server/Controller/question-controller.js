@@ -82,42 +82,39 @@ class QuestionController {
 
   async catigoryquestion(req, res) {
     try {
-      const {
-        count = 5,
-        category,
-        technologies,
-        frameworks,
-        level,
-      } = req.query;
-
+      const { count = 15, category, level } = req.query; // Убрал technologies, frameworks
+      
       const filter = {};
-
+  
+      // Обработка категории
       if (category) {
-        filter.category = { $regex: `^${category}$`, $options: "i" };
+        if (category.toLowerCase() === 'frontend' || category.toLowerCase() === "fullstack") {
+          filter.category = {
+            $in: [
+              'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
+              'HTML', 'CSS', 'TypeScript', 'Next.js'
+            ]
+          };
+        } else {
+          // Для Backend и других
+          filter.category = { $regex: `^${category}$`, $options: "i" };
+        }
       }
-
-      if (technologies && frameworks) {
-        filter.$or = [
-          { technologies: { $regex: `^${technologies}$`, $options: "i" } },
-          { frameworks: { $regex: `^${frameworks}$`, $options: "i" } },
-        ];
-      } else if (technologies) {
-        filter.technologies = { $regex: `^${technologies}$`, $options: "i" };
-      } else if (frameworks) {
-        filter.frameworks = { $regex: `^${frameworks}$`, $options: "i" };
-      }
-
+  
+      // УРОВЕНЬ СЛОЖНОСТИ
       if (level) {
-        filter.level = { $regex: `^${level}$`, $options: "i" };
+        let mappedLevel = level;
+        if (level === "Стажер") mappedLevel = "Junior";
+        filter.difficulty = { $regex: `^${mappedLevel}$`, $options: "i" };
       }
-
+  
       console.log("Фильтр для поиска:", filter);
-
+  
       const questions = await Question.aggregate([
         { $match: filter },
         { $sample: { size: Number(count) } },
       ]);
-
+  
       res.json(questions);
     } catch (error) {
       console.error("Ошибка загрузки вопросов", error);
