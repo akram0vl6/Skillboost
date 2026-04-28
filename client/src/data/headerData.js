@@ -11,8 +11,14 @@ export const linkList = [
     { name: "Менторы", path: "/mentors" },
   ];
 
-export  const routes02 = [
+export  const interview = [
     { name: "База вопросов", path: "/baza_voprosov" },
     { name: "Тренажёр собеседований", path: "/startInterview" },
     // { name: "Топы вопросов", path: "/podborki_voprosov" },
+  ];
+export  const learning = [
+    // { name: "Роадмапы", path: "/roadmaps" },
+    { name: "Пет-проекты", path: "/projects" },
+    { name: "Тестовые задания", path: "/test-tasks" },
+    // { name: "Напарники", path: "/naparniki" },
   ];

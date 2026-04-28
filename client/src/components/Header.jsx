@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import ThemeSwitcher from "../ui/ThemeSwitcher";
 import { use, useEffect, useRef, useState } from "react";
 import { IoIosContact } from "react-icons/io";
-import { linkList, routes02 } from "../data/headerData"
+import { linkList, interview, learning } from "../data/headerData"
 
 
 
@@ -16,29 +16,38 @@ const Header = () => {
   const storedData = storedRaw ? JSON.parse(storedRaw) : null;
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isInterviewOpen, setIsInterviewOpen] = useState(false);
+  const [isLearningOpen, setIsLearningOpen] = useState(false);
 
-  const dropdownRef = useRef(null);
+  const interviewDropdownRef = useRef(null);
+  const learningDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false); // Закрыть, если клик вне
+      if (interviewDropdownRef.current && !interviewDropdownRef.current.contains(event.target)) {
+        setIsInterviewOpen(false);
+      } 
+      if (learningDropdownRef.current && !learningDropdownRef.current.contains(event.target)) {
+        setIsLearningOpen(false)
       }
     };
 
-    if (isOpen) {
+    if (isInterviewOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    if (isLearningOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]);
+  }, [isInterviewOpen, isLearningOpen]);
 
   useEffect(() => {
     if (mobileMenuOpen) {
-      setIsOpen(false);
+      setIsInterviewOpen(false);
+      setIsLearningOpen(false)
     }
   }, [location.pathname])
 
@@ -100,12 +109,12 @@ const Header = () => {
                           ? "text-[#09B87E] bg-[var(--bg-02)]"
                           : "text-[var(--color-text)]"
                         }`}
-                      onClick={() => setIsOpen(!isOpen)}
+                      onClick={() => setIsInterviewOpen(!isInterviewOpen)}
                     >
                       Вопросы с собеседований
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`icon mt-1 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                        className={`icon mt-1 transition-transform duration-300 ${isInterviewOpen ? "rotate-180" : ""}`}
                         width="13"
                         height="8"
                         viewBox="0 0 13 8"
@@ -118,18 +127,18 @@ const Header = () => {
                     </button>
 
                     <div
-                      ref={dropdownRef}
-                      className={`absolute top-12 left-0 w-full min-w-[200px] bg-[var(--bg-03)] border border-[#262840] dark:bg-surface-900 shadow-lg rounded-xl py-2 z-50 overflow-hidden transition-all duration-300 ease-in-out ${isOpen
+                      ref={interviewDropdownRef}
+                      className={`absolute top-12 left-0 w-full min-w-[200px] bg-[var(--bg-03)] border border-[#262840] dark:bg-surface-900 shadow-lg rounded-xl py-2 z-50 overflow-hidden transition-all duration-300 ease-in-out ${isInterviewOpen
                         ? "opacity-100 scale-100 visible"
                         : "opacity-0 scale-95 invisible"
                         }`}
                     >
                       <ul className="flex flex-col">
-                        {routes02.map(({ name, path }) => (
+                        {interview.map(({ name, path }) => (
                           <Link
                             key={path}
                             to={path}
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => setIsInterviewOpen(false)}
                             className={
                               path === currentPath
                                 ? "text-[#09B87E] block font-normal px-4 py-2.5  hover:text-st-green-90 hover:bg-[var(--bg-02)] transition-colors dark:hover:text-white"
@@ -156,44 +165,56 @@ const Header = () => {
                   </Link>
 
                   <div className="group relative">
-                    <button className="px-3 cursor-pointer outline-none bg-transparent text-[var(--color-text)]  hover:text-[var(--color-main)]  focus:ring-1 inline-flex items-center gap-1.5 hover:!text-st-green-90 hover:bg-[var(--bg-03)] py-2 rounded-lg">
+                    <button
+                      className={`px-3 cursor-pointer inline-flex items-center gap-1.5 py-2 rounded-lg
+    hover:text-[var(--color-main)] hover:bg-[var(--bg-03)] 
+    ${["/baza_voprosov", "/startInterview",].includes(
+                        currentPath
+                      )
+                          ? "text-[#09B87E] bg-[var(--bg-02)]"
+                          : "text-[var(--color-text)]"
+                        }`}
+                      onClick={() => setIsLearningOpen(!isLearningOpen)}
+                    >
                       Обучение
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="fill-st-black dark:fill-white icon mt-1 group-hover:fill-st-green-90 transition-colors"
+                        className={`icon mt-1 transition-transform duration-300 ${isLearningOpen ? "rotate-180" : ""}`}
                         width="13"
                         height="8"
                         viewBox="0 0 13 8"
                       >
-                        <path d="M6.5 7.4L0.5 1.4L1.9 0L6.5 4.6L11.1 0L12.5 1.4L6.5 7.4Z" fill="var(--color-text)"   />
+                        <path
+                          d="M6.5 7.4L0.5 1.4L1.9 0L6.5 4.6L11.1 0L12.5 1.4L6.5 7.4Z"
+                          fill="var(--color-text)"  
+                        />
                       </svg>
                     </button>
-                    <ul className="absolute flex-col opacity-0 hidden transition top-12 left-0 w-full min-w-[200px] bg-white border dark:border-surface-700 dark:bg-surface-900 shadow-lg rounded-xl py-2">
-                      <li>
-                        <Link
-                          to="/roadmaps"
-                          className="block px-4 py-2.5 hover:dark:bg-surface-700 hover:text-st-green-90 hover:bg-[#EEFFF2] transition-colors"
-                        >
-                          Роадмапы
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/progress"
-                          className="block px-4 py-2.5 hover:dark:bg-surface-700 hover:text-st-green-90 hover:bg-[#EEFFF2] transition-colors"
-                        >
-                          Мой прогресс
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/naparniki"
-                          className="block px-4 py-2.5 hover:dark:bg-surface-700 hover:text-st-green-90 hover:bg-[#EEFFF2] transition-colors"
-                        >
-                          Напарники
-                        </Link>
-                      </li>
-                    </ul>
+
+                    <div
+                      ref={learningDropdownRef}
+                      className={`absolute top-12 left-0 w-full min-w-[200px] bg-[var(--bg-03)] border border-[#262840] dark:bg-surface-900 shadow-lg rounded-xl py-2 z-50 overflow-hidden transition-all duration-300 ease-in-out ${isLearningOpen
+                        ? "opacity-100 scale-100 visible"
+                        : "opacity-0 scale-95 invisible"
+                        }`}
+                    >
+                      <ul className="flex flex-col">
+                        {learning.map(({ name, path }) => (
+                          <Link
+                            key={path}
+                            to={path}
+                            onClick={() => setIsLearningOpen(false)}
+                            className={
+                              path === currentPath
+                                ? "text-[#09B87E] block font-normal px-4 py-2.5  hover:text-st-green-90 hover:bg-[var(--bg-02)] transition-colors dark:hover:text-white"
+                                : "px-4 py-2.5  text-[var(--color-text)] hover:bg-[var(--bg-02)] rounded"
+                            }
+                          >
+                            {name}
+                          </Link>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
 
                   {/* <Link

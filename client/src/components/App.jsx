@@ -1,8 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-
+import "../index.css"
 import Auth from "../pages/Auth/Auth.jsx";
-import Home from "../pages/Home.jsx";
 import Register from "../pages/Auth/Register.jsx";
 import Header from "./Header.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
@@ -14,6 +13,7 @@ import Profile from "../pages/Profile/Profile.jsx";
 import Interview from "../pages/Interview.jsx";
 import Results from "../pages/Results.jsx";
 import QuestionsPage from "../pages/QuestionsPage.jsx";
+import TestTask from "../pages/TestTasks.jsx";
 
 const App = () => {
 
@@ -36,6 +36,7 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/interview" element={<Interview />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/test-tasks" element={<TestTask />} />
         </Routes>
       </div>  
 
