@@ -15,6 +15,8 @@ import Results from "../pages/Results.jsx";
 import QuestionsPage from "../pages/QuestionsPage.jsx";
 import TestTasks from "../pages/TestTasks.jsx";
 import TestTask from "../ui/TestTask.jsx";
+import Roadmaps from "../pages/Roadmaps.jsx";
+import Roadmap from "../ui/Roadmap.jsx";
 
 const App = () => {
 
@@ -39,6 +41,8 @@ const App = () => {
           <Route path="/results" element={<Results />} />
           <Route path="/test-tasks" element={<TestTasks />} />
           <Route path="/test-tasks/:id" element={<TestTask />} />
+          <Route path="/roadmaps" element={<Roadmaps />} />
+          <Route path="/roadmaps/:tech" element={<Roadmap />} />
         </Routes>
       </div>  
 

@@ -17,8 +17,8 @@ export  const interview = [
     // { name: "Топы вопросов", path: "/podborki_voprosov" },
   ];
 export  const learning = [
-    // { name: "Роадмапы", path: "/roadmaps" },
-    { name: "Пет-проекты", path: "/projects" },
+    { name: "Роадмапы", path: "/roadmaps" },
+    // { name: "Пет-проекты", path: "/projects" },
     { name: "Тестовые задания", path: "/test-tasks" },
     // { name: "Напарники", path: "/naparniki" },
   ];
