@@ -1,21 +1,28 @@
 import React, { useState } from 'react'
-import { testTasks } from '../data/testTaskData';
+import { testTasks, specialties } from '../data/testTaskData';
+
+import { Link } from "react-router-dom";
 const TestTasks = () => {
   const [expanded, setExpanded] = useState(false);
+  const [selectedSpecialty, setSelectedSpecialty] = useState('all')
 
-  const specialties = [
-    { name: "Python разработчик", count: 1, icon: "https://cdn.solvit.space/topics/python.svg" },
-    { name: "Frontend разработчик", count: 4, icon: null },
-    { name: "Backend разработчик", count: 21, icon: null },
-    { name: "Продуктовый аналитик", count: 4, icon: null },
-    { name: "Data Scientist", count: 1, icon: null },
-    { name: "iOS разработчик", count: 1, icon: null },
-    { name: "Аналитик данных", count: 5, icon: null },
-    { name: "BI аналитик", count: 1, icon: null },
-  ];
 
-  const totalCount = specialties.reduce((sum, s) => sum + s.count, 0);
-  console.log(testTasks)
+
+  const hendlSpecialty = (name) => {
+    setSelectedSpecialty(name)
+  }
+
+  const filteredTasks = selectedSpecialty && selectedSpecialty !== 'all'
+    ? testTasks.filter(task => task.specialty === selectedSpecialty)
+    : testTasks
+
+  const countSpecialts = specialties.map((spec) => ({
+    ...spec,
+    count: testTasks.filter(task => task.specialty === spec.name).length
+  }))
+  
+
+  const totalCount = testTasks.length
   return (
     <div className='text-[var(--color-text)]'>
       <h1 className="lg:text-3xl text-2xl font-bold">Тестовые задания</h1>
@@ -23,7 +30,10 @@ const TestTasks = () => {
         <header className="flex justify-between">
           <h3 className="font-semibold text-xl">Выберите специальность</h3>
           <div className="flex flex-wrap">
-            <button className="py-[5px] flex items-center rounded-full px-2 text-center border hover:shadow transition-all">
+            <button
+              onClick={() => hendlSpecialty("all")}
+              className={`${selectedSpecialty === 'all' ? 'bg-[var(--bg-04)] text-[var(--bg-02)]' : ''} py-[5px] flex items-center rounded-full px-2 text-center border hover:shadow transition-all`}
+            >
               Все
               <span className="text-xs text-gray-500 ml-3 px-1.5 py-[1px] bg-gray-100 rounded-full transition-colors">
                 {totalCount}
@@ -37,10 +47,11 @@ const TestTasks = () => {
           style={{ maxHeight: expanded ? "500px" : "60px" }}
         >
           <div className="flex gap-2 flex-wrap py-2 px-1">
-            {specialties.map((spec) => (
+            {countSpecialts.map((spec) => (
               <button
                 key={spec.name}
-                className="py-[5px] flex items-center rounded-full px-2 text-center border hover:shadow transition-all"
+                onClick={() => hendlSpecialty(spec.name)}
+                className={`${spec.name == selectedSpecialty ? 'bg-[var(--bg-04)] text-[var(--bg-02)]' : ''} py-[5px] flex items-center rounded-full px-2 text-center border hover:shadow transition-all`}
               >
                 {spec.icon && (
                   <span className="flex mr-1 bg-gray-100 rounded-full p-1 min-w-6 min-h-6 items-center justify-around">
@@ -78,17 +89,20 @@ const TestTasks = () => {
         </button>
       </div>
       <div>
-        {testTasks.map((task) => (
-          <section key={task.id} className="relative w-full flex flex-col p-4 my-4 gap-4 rounded-2xl cursor-pointer border shadow transition-colors">
+        {filteredTasks.map((task) => (
+          <section className="relative w-full flex flex-col p-4 my-4 gap-4 rounded-2xl cursor-pointer border shadow transition-colors">
             <header className="flex flex-col gap-1">
               <section className="flex justify-between text-sm">
                 <p>
                   <span className="font-medium">{task.company}</span>
                 </p>
               </section>
-              <h2 className="font-semibold transition-colors">
-                {task.title}
-              </h2>
+              <Link to={`/test-tasks/${task.id}`}>
+
+                <h2 className="font-semibold hover:text-[var(--color-main)] transition-colors">
+                  {task.title}
+                </h2>
+              </Link>
             </header>
             <section className="flex justify-between items-center">
               <section className="flex items-end gap-1">

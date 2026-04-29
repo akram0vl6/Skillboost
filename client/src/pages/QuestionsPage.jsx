@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 function QuestionsPage() {
   const { tech } = useParams(); // например, "python"
@@ -40,7 +40,7 @@ function QuestionsPage() {
   };
   return (
     <div className="text-[var(--color-text)]">
-      <a href="/baza_voprosov" className="truncate">
+      <Link to={"/baza_voprosov"} className="truncate">
         <button className="flex items-center gap-1 text-sm text-st-gray-60   cursor-pointer mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@ function QuestionsPage() {
           </svg>
           Вернуться к базаву вопросов
         </button>
-      </a>
+      </Link>
 
       <div>
         <h1 className="lg:text-5xl text-3xl font-bold mb-4  ">

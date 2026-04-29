@@ -16,6 +16,7 @@
   --color-accent: #E5E5E5;
     --bg-02: #ffff ;
     --bg-03: #ECEEF1 ;
+  --bg-04: #333B45 ;
   --text-1: "Druk Wide Bold", sans-serif;
 }
 
@@ -28,6 +29,7 @@
   --bg-02: #1B1D36 ;
   --bg-footer: #1B1D36 ;
   --bg-03: #0F112B ;
+  --bg-04: #D0D5DD ;
   --p-01:
 }
 

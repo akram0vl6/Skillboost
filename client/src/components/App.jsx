@@ -13,7 +13,8 @@ import Profile from "../pages/Profile/Profile.jsx";
 import Interview from "../pages/Interview.jsx";
 import Results from "../pages/Results.jsx";
 import QuestionsPage from "../pages/QuestionsPage.jsx";
-import TestTask from "../pages/TestTasks.jsx";
+import TestTasks from "../pages/TestTasks.jsx";
+import TestTask from "../ui/TestTask.jsx";
 
 const App = () => {
 
@@ -36,7 +37,8 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/interview" element={<Interview />} />
           <Route path="/results" element={<Results />} />
-          <Route path="/test-tasks" element={<TestTask />} />
+          <Route path="/test-tasks" element={<TestTasks />} />
+          <Route path="/test-tasks/:id" element={<TestTask />} />
         </Routes>
       </div>  
 
