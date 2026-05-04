@@ -5,7 +5,7 @@ import { roadmaps } from '../data/roadmapData';
 const Roadmaps = () => {
 
   return (
-    <div>
+    <div className='text-[var(--color-text)]'>
         <div className="mb-5">
             <h1 className="lg:text-5xl text-4xl font-bold mb-5">
             Роадмапы
