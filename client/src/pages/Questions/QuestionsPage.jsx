@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { questionsApi } from "../../shared/api/questions";
+import { IoMdBookmark } from "react-icons/io";
+import { BsBookmark } from "react-icons/bs";
 
 function QuestionsPage() {
   const { tech } = useParams(); // например, "python"
@@ -10,23 +12,44 @@ function QuestionsPage() {
 
   const [questions, setQuestions] = useState([]);
   const [visibleAnswerIndex, setVisibleAnswerIndex] = useState(null);
+  const [bookmarks, setBookmarks] = useState([]);
   
   // Инициализируем difficulty из URL, если есть
   const [difficulty, setDifficulty] = useState(params.get("difficulty") || null);
 
   const difficultyLevels = ["Стажёр", "Junior", "Middle", "Senior"];
 
+  // Загружаем избранное из localStorage при монтировании
+  useEffect(() => {
+    const savedBookmarks = localStorage.getItem("bookmarks");
+    if (savedBookmarks) {
+      setBookmarks(JSON.parse(savedBookmarks));
+    }
+  }, []);
+
+  const toggleBookmark = (question) => {
+    let updated;
+    const exists = bookmarks.some(b => b._id === question._id);
+    
+    if (exists) {
+      updated = bookmarks.filter(b => b._id !== question._id);
+    } else {
+      updated = [...bookmarks, question];
+    }
+    setBookmarks(updated);
+    localStorage.setItem("bookmarks", JSON.stringify(updated));
+  };
+
   const fetchQuestions = async () => {
     try {
       const query = new URLSearchParams({ tech });
       if (difficulty) query.set("difficulty", difficulty);
-      const {data} = await questionsApi.getByTech(query)
-      setQuestions(data)
+      const {data} = await questionsApi.getByTech(query);
+      setQuestions(data);
     } catch (error) {
       console.error("Ошибка при получении вопросов:", error);
     }
   };
-
 
   useEffect(() => {
     fetchQuestions();
@@ -36,10 +59,15 @@ function QuestionsPage() {
     setDifficulty(level); // useEffect автоматически вызовет fetchQuestions
     navigate(`?difficulty=${encodeURIComponent(level)}`); // обновляем URL
   };
+
+  const isBookmarked = (questionId) => {
+    return bookmarks.some(b => b._id === questionId);
+  };
+
   return (
     <div className="text-[var(--color-text)]">
       <Link to={"/baza_voprosov"} className="truncate">
-        <button className="flex items-center gap-1 text-sm text-st-gray-60   cursor-pointer mb-4">
+        <button className="flex items-center gap-1 text-sm text-st-gray-60 cursor-pointer mb-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             aria-hidden="true"
@@ -59,26 +87,30 @@ function QuestionsPage() {
               d="m15 6l-6 6l6 6"
             ></path>
           </svg>
-          Вернуться к базаву вопросов
+          Вернуться к базе вопросов
         </button>
       </Link>
 
       <div>
-        <h1 className="lg:text-5xl text-3xl font-bold mb-4  ">
+        <h1 className="lg:text-5xl text-3xl font-bold mb-4">
           ТОП вопросов по {tech}
         </h1>
-        <div className="text-xl  ">
+        <div className="text-xl">
           Подборка самых частых вопросов на собеседованиях {tech} разработчикам
         </div>
       </div>
 
       <div className="flex flex-col gap-2 mt-4">
-        <p className="text-md font-medium  ">
-          Выберите грейды
+        <p className="text-md font-medium">
+          Выберите грейд
         </p>
         <div className="flex items-center gap-2 flex-wrap">
           {difficultyLevels.map((level) => (
-            <div onClick={() => handleDifficultyClick(level)} className="rounded-2xl p-1 px-3 text-md   bg-[var(--bg-03)] cursor-pointer hover:bg-[var(--bg-02)] flex gap-1 items-center transition-colors">
+            <div 
+              key={level}
+              onClick={() => handleDifficultyClick(level)} 
+              className="rounded-2xl p-1 px-3 text-md bg-[var(--bg-03)] cursor-pointer hover:bg-[var(--bg-02)] flex gap-1 items-center transition-colors"
+            >
               <span>{level}</span>
             </div>
           ))}
@@ -101,10 +133,9 @@ function QuestionsPage() {
             d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14"
           ></path>
         </svg>
-
         <input
           type="text"
-          className="p-inputtext p-component !px-10 w-full border border-[var(--color-border)] rounded-lg bg-[var(--bg-03)]   focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent"
+          className="p-inputtext p-component !px-10 w-full border border-[var(--color-border)] rounded-lg bg-[var(--bg-03)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent"
           placeholder="Введите название или содержание вопроса"
         />
       </section>
@@ -113,7 +144,10 @@ function QuestionsPage() {
         <h2 className="text-2xl font-bold mb-4">Вопросы</h2>
         {questions.length === 0 && <p>Загрузка вопросов...</p>}
         {questions.map((question, index) => (
-          <section className="scroll-my-[75px] shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1),_0_10px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-none dark:border dark:border-surface-500 w-full py-2 px-4 rounded-2xl my-4">
+          <section 
+            key={question._id} 
+            className="scroll-my-[75px] shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1),_0_10px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-none dark:border dark:border-surface-500 w-full py-2 px-4 rounded-2xl my-4"
+          >
             <section className="relative w-full">
               <section className="flex flex-col gap-3 pt-4 pb-2">
                 <section className="flex flex-col gap-2 text-sm">
@@ -126,51 +160,37 @@ function QuestionsPage() {
                     </section>
                     <section className="relative inline-flex ml-auto">
                       <button
+                        onClick={() => toggleBookmark(question)}
                         aria-label="Добавить в избранное"
                         className="relative flex items-center justify-center"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          aria-hidden="true"
-                          role="img"
-                          className="text-st-gray-40 iconify iconify--st-icons"
-                          width="0.91em"
-                          height="1em"
-                          viewBox="0 0 20 22"
-                          style={{ fontSize: "20px" }}
-                        >
-                          <g fill="none">
-                            <path
-                              d="M14.8193 1.00391H5.17934C3.04934 1.00391 1.31934 2.74391 1.31934 4.86391V18.9539C1.31934 20.7539 2.60934 21.5139 4.18934 20.6439L9.06934 17.9339C9.58934 17.6439 10.4293 17.6439 10.9393 17.9339L15.8193 20.6439C17.3993 21.5239 18.6893 20.7639 18.6893 18.9539V4.86391C18.6793 2.74391 16.9493 1.00391 14.8193 1.00391Z"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            ></path>
-                          </g>
-                        </svg>
+                        {isBookmarked(question._id) ? (
+                          <IoMdBookmark className="text-[20px] cursor-pointer text-[var(--color-main)]" />
+                        ) : (
+                          <BsBookmark className="text-[20px] cursor-pointer text-[var(--color-text)]" />
+                        )}
                       </button>
                     </section>
                   </header>
 
-                  <div className="rounded-2xl p-0.5 px-3 w-fit font-medium text-base bg-[var(--bg-02)]  ">
+                  <div className="rounded-2xl p-0.5 px-3 w-fit font-medium text-base bg-[var(--bg-02)]">
                     {question.difficulty}
                   </div>
                   <div>
                     Рейтинг вопроса:
-                    <span className="font-medium  ">
+                    <span className="font-medium">
                       {question.rating}
                     </span>
                   </div>
                 </section>
 
                 {visibleAnswerIndex === index ? (
-                  <div className="answer-box ">
+                  <div className="answer-box">
                     <p>
                       <strong>Ответ:</strong> {question.answer}
                     </p>
                     <button
-                      className="flex gap-1 items-center text-slate-500 dark:text-slate-400 hover:underline hover:decoration-1 hover:decoration-slate-300 hover:underline-offset-4"
+                      className="flex gap-1 items-center text-slate-500 dark:text-slate-400 hover:underline hover:decoration-1 hover:decoration-slate-300 hover:underline-offset-4 mt-2"
                       onClick={() => setVisibleAnswerIndex(null)}
                     >
                       Скрыть ответ

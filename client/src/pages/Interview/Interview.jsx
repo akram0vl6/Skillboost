@@ -32,12 +32,16 @@ const Interview = () => {
   console.log(questions);
   
   const toggleBookmark = (question) => {
-    const id = question._id;
     let updated;
-    if (bookmarks.includes(id)) {
-      updated = bookmarks.filter((qid) => qid !== id);
+    // Проверяем, есть ли уже этот вопрос в избранном (по _id)
+    const exists = bookmarks.some(b => b._id === question._id);
+    
+    if (exists) {
+      // Удаляем вопрос
+      updated = bookmarks.filter(b => b._id !== question._id);
     } else {
-      updated = [...bookmarks, id];
+      // Добавляем весь объект вопроса
+      updated = [...bookmarks, question];
     }
     setBookmarks(updated);
     localStorage.setItem("bookmarks", JSON.stringify(updated));
@@ -45,8 +49,8 @@ const Interview = () => {
 
   const currentQuestion = questions[currentIndex];
   const isBookmarked = currentQuestion
-    ? bookmarks.includes(currentQuestion._id)
-    : true;
+  ? bookmarks.some(b => b._id === currentQuestion._id)
+  : false;
 
   // const [bookmark, setBookmark] = useState([]);
   const [stats, setStats] = useState({ know: 0, dontKnow: 0 });
@@ -56,6 +60,8 @@ const Interview = () => {
   useEffect(() => {
     fetchQuestions();
   }, []);
+
+  console.log(bookmarks)
 
   const fetchQuestions = async () => {
     try {

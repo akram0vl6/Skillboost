@@ -8,7 +8,7 @@ import ModalGraph from '../shared/ui/modalGraph';
 
 const RoadmapCard = () => {
     const [data, setData] = useState(null);
-    const [isModal, setIsModal] = useState(true)
+    const [isModal, setIsModal] = useState(false)
     const [selectedNode, setSelectedNode] = useState(null);
     const { tech } = useParams();
 

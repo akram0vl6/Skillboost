@@ -147,20 +147,6 @@ const Results = () => {
                     <h3 className="text-2xl">{q.question.title}</h3>
                   </div>
 
-                  {/* <span
-                    className={`py-1 px-2 rounded-2xl ${
-                      q.question.level === "Junior"
-                        ? "bg-[#02263F] text-[#01B0BB]"
-                        : q.question.level === "Middle"
-                        ? "bg-[#021E4D] text-[#0085F4]"
-                        : q.question.level === "Senior"
-                        ? "bg-[#1F034D] text-[#B348F9]"
-                        : "bg-[#351F1A] text-[#DE8A00]"
-                    }`}
-                  >
-                    {q.question.level}
-                  </span> */}
-
                   <p className="mt-2">{q.question.question}</p>
 
                   <div>
