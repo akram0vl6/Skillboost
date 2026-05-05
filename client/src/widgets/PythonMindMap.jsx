@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EDGES, NODES } from '../data/graphData';
+import { EDGES, NODES } from '../shared/data/graphData';
 
 
 

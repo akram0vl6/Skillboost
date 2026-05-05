@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { questionsApi } from "../../shared/api/questions";
 
 function QuestionsPage() {
   const { tech } = useParams(); // например, "python"
@@ -19,17 +20,14 @@ function QuestionsPage() {
     try {
       const query = new URLSearchParams({ tech });
       if (difficulty) query.set("difficulty", difficulty);
-
-      const response = await fetch(`http://localhost:4444/api/questionsTech?${query.toString()}`);
-      const data = await response.json();
-      console.log("Вопросы по технологии:", data);
-      setQuestions(data);
+      const {data} = await questionsApi.getByTech(query)
+      setQuestions(data)
     } catch (error) {
       console.error("Ошибка при получении вопросов:", error);
     }
   };
 
-  // Вызываем при изменении tech или difficulty
+
   useEffect(() => {
     fetchQuestions();
   }, [tech, difficulty]);

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./Auth.css";
 import { useNavigate } from "react-router-dom";
+import { authApi } from "../../shared/api/auth";
 
 const Register = () => {
   const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState(""); // Исправлено: используем fullName
+  const [fullName, setFullName] = useState(""); 
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -35,37 +35,32 @@ const Register = () => {
   useEffect(() => {
     const storedData = localStorage.getItem("data");
     if (storedData) {
-      navigate("/home"); // Если данные есть, сразу перенаправляем на главную
+      navigate("/"); // Если данные есть, сразу перенаправляем на главную
     }
   }, []);
 
   const handlePost = async (e) => {
     e.preventDefault();
-    if (!handleForm()) {
-      return;
-    }
-
+    
+    if (!handleForm()) return;
+  
     try {
-      const res = await fetch("http://localhost:4444/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, fullName, password }), // Исправлено: теперь используем fullName
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        console.log("Success");
-        localStorage.setItem("data", JSON.stringify(data));
-        navigate("/profile");
-      } else {
-        setError(data.message);
-      }
-    } catch (e) {
-      console.log(e);
+      // 1. Axios сразу возвращает результат в переменной data
+      const { data } = await authApi.register({ email, fullName, password });
+  
+      // 2. Если мы попали сюда, значит запрос успешный (res.ok в fetch)
+      console.log("Success");
+      localStorage.setItem("data", JSON.stringify(data));
+      navigate("/profile");
+  
+    } catch (err) {
+      // 3. В Axios ошибки сервера лежат в err.response.data
+      const errorMessage = err.response?.data?.message || "Произошла ошибка";
+      setError(errorMessage);
+      console.error("Auth error:", err);
     }
   };
+  
 
   return (
 <div className="min-h-screen flex items-center justify-center bg-[var(--bg-main)] px-4 py-12">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { testTasks, specialties } from '../data/testTaskData';
+import { testTasks, specialties } from '../shared/data/testTaskData';
 
 import { Link } from "react-router-dom";
 const TestTasks = () => {

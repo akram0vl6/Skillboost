@@ -1,8 +1,7 @@
 import React, { use, useState } from "react";
-import "./Profile.css";
 import { FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import Edit from "./Edit/Edit";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [edit, setEdit] = useState(false);
@@ -10,7 +9,13 @@ const Profile = () => {
   const username = storedData.fullName || "Гость";
   const avatarUrl = storedData.avatarUrl ? storedData.avatarUrl : null;
 
-  console.log(storedData);
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem("data")
+    localStorage.clear()
+    navigate('/auth')
+  }
 
   return (
     <>
@@ -115,18 +120,27 @@ const Profile = () => {
                     Опыт
                   </h3>
                   <section className="flex flex-col gap-4">
-                    <p className="text-[#6e8a9e]"> 
+                    <p className="text-[#6e8a9e]">
                       {storedData.specialization || "Специализация не указана"}
                     </p>
-                    
+
                   </section>
                 </section>
-                <button
-                  onClick={() => setEdit(true)}
-                  className="border border-[var(--color-main)] text-[var(--color-main)] p-2 rounded-lg cursor-pointer self-end"
-                >
-                  Редактировать
-                </button>
+                <div className="flex justify-end gap-5">
+
+                  <button
+                    onClick={handleLogout}
+                    className="border border-[#ff0000] text-[#ff0000] p-2 rounded-lg cursor-pointer self-end"
+                  >
+                    Выйты из аккаунта
+                  </button>
+                  <button
+                    onClick={() => setEdit(true)}
+                    className="border border-[var(--color-main)] text-[var(--color-main)] p-2 rounded-lg cursor-pointer self-end"
+                  >
+                    Редактировать
+                  </button>
+                </div>
               </section>
             </div>
           </div>

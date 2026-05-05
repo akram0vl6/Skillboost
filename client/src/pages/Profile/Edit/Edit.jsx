@@ -184,40 +184,6 @@ const handleSave = async () => {
                 aria-hidden="true"
                 referrerpolicy="no-referrer"
               />
-              {/* <section  className="flex gap-1 items-end absolute right-1.5 bottom-1.5">
-                <div
-                  className="p-fileupload p-fileupload-basic p-component !justify-end"
-                  data-pc-name="fileupload"
-                  pc1_85=""
-                  data-pc-section="root"
-                >
-                  <button
-                    className="p-button p-component p-fileupload-choose-button !bg-white !gap-0 !p-1 border !border-st-gray-10 dark:border-st-gray-60"
-                    data-p=""
-                    type="button"
-                    aria-label=" "
-                    data-pc-name="pcchoosebutton"
-                    data-p-disabled="false"
-                    data-pc-extend="button"
-                    pc1_86=""
-                    data-pc-section="root"
-                  >
-                    <span
-                      className="iconify i-st-icons:st-edit-outlined text-[#09B87E]"
-                      aria-hidden="true"
-        
-                    ></span>
-                    <span
-                      className="p-button-label"
-                      data-pc-section="label"
-                      data-p=""
-                    >
-                      {" "}
-                    </span>
-                  </button>
-                  <input type="file" accept="image/*" data-pc-section="input" />
-                </div>
-              </section> */}
             </button>
             <section className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 text-[var(--color-text)]">
               <label className="w-full flex flex-col gap-1">

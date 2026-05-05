@@ -1,9 +1,9 @@
 
 import { Link, useLocation } from "react-router-dom";
-import ThemeSwitcher from "../ui/ThemeSwitcher";
+import ThemeSwitcher from "../features/ThemeSwitcher";
 import { use, useEffect, useRef, useState } from "react";
 import { IoIosContact } from "react-icons/io";
-import { linkList, interview, learning } from "../data/headerData"
+import { linkList, interview, learning } from "../shared/data/headerData"
 
 
 
@@ -168,7 +168,7 @@ const Header = () => {
                     <button
                       className={`px-3 cursor-pointer inline-flex items-center gap-1.5 py-2 rounded-lg
     hover:text-[var(--color-main)] hover:bg-[var(--bg-03)] 
-    ${["/baza_voprosov", "/startInterview",].includes(
+    ${["/roadmaps", "/test-tasks",].includes(
                         currentPath
                       )
                           ? "text-[#09B87E] bg-[var(--bg-02)]"

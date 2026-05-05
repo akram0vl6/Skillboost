@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Auth.css";
+import { authApi } from "../../shared/api/auth";
 
-const Auth = () => {
+
+const Login = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
@@ -40,24 +41,17 @@ const Auth = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:4444/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
+      const {data} = await authApi.login({email, password})
       console.log(data);
-      if (res.ok) {
+      
         localStorage.setItem("data", JSON.stringify(data));
         navigate("/");
-      } else {
-        setError(data.message);
-      }
-    } catch (e) {
-      console.log(e);
+      
+        
+      } catch (e) {
+        const errorMessage = err.response?.data?.message || "Произошла ошибка";
+        setError(errorMessage);
+        console.error("Auth error:", err);
     }
   };
 
@@ -132,4 +126,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Login;

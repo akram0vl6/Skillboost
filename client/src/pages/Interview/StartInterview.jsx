@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {DATA_STRUCTURE, LEVELS} from "../data/categoryData"
+import {DATA_STRUCTURE, LEVELS} from "../../shared/data/categoryData"
 
 
 

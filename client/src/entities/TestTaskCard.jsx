@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { testTasks } from '../data/testTaskData'
+import { testTasks } from '../shared/data/testTaskData'
 
-const TestTask = () => {
+const TestTaskCard = () => {
     const [data, setData] = useState()
 
     const { id } = useParams()
@@ -67,4 +67,4 @@ const TestTask = () => {
     )
 }
 
-export default TestTask
+export default TestTaskCard

@@ -1,22 +1,23 @@
 import React from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import "../index.css"
-import Auth from "../pages/Auth/Auth.jsx";
+import "./index.css"
+import Auth from "../pages/Auth/Login.jsx";
 import Register from "../pages/Auth/Register.jsx";
-import Header from "./Header.jsx";
+import Header from "../widgets/Header.jsx";
 import Dashboard from "../pages/Dashboard.jsx";
-import Footer from "../ui/Footer.jsx";
+import Footer from "../widgets/Footer.jsx";
 import Subscription from "../pages/Subscription.jsx";
-import StartInterview from "../pages/StartInterview.jsx";
-import QuestionsSection from "../pages/QuestionsSection.js";
+import QuestionsSection from "../widgets/QuestionsSection.js";
 import Profile from "../pages/Profile/Profile.jsx";
-import Interview from "../pages/Interview.jsx";
-import Results from "../pages/Results.jsx";
-import QuestionsPage from "../pages/QuestionsPage.jsx";
+import Interview from "../pages/Interview/Interview.jsx";
+import Results from "../pages/Interview/Results.jsx";
+import QuestionsPage from "../pages/Questions/QuestionsPage.jsx";
 import TestTasks from "../pages/TestTasks.jsx";
-import TestTask from "../ui/TestTask.jsx";
+import TestTask from "../entities/TestTaskCard.jsx";
 import Roadmaps from "../pages/Roadmaps.jsx";
-import Roadmap from "../ui/Roadmap.jsx";
+import Roadmap from "../entities/RoadmapCard.jsx";
+import StartInterview from "../pages/Interview/StartInterview.jsx";
+import Questions from "../pages/Questions/Questions.jsx";
 
 const App = () => {
 
@@ -34,7 +35,7 @@ const App = () => {
           <Route path="/auth/register" element={<Register />} />
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/startInterview" element={<StartInterview />} />
-          <Route path="/baza_voprosov" element={<QuestionsSection />} />
+          <Route path="/baza_voprosov" element={<Questions />} />
           <Route path="/baza_voprosov/:tech" element={<QuestionsPage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/interview" element={<Interview />} />
@@ -44,7 +45,7 @@ const App = () => {
           <Route path="/roadmaps" element={<Roadmaps />} />
           <Route path="/roadmaps/:tech" element={<Roadmap />} />
         </Routes>
-      </div>  
+      </div>
 
       <div>
         <Footer />

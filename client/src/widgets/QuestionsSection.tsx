@@ -1,24 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {backendCards, OtherTechnologies, frontendCards} from '../shared/data/questionData'
 
 export default function QuestionsSection({}) {
-  const backendCards = [
-  { name: "Python", path: "Python", title: "Один из самых популярных языков программирования. Легок в изучении и прост в применении.", img: "./img/tehnalogi/python.svg"  },
-  { name: "Java", path: "Java", title: " Кроссплатформенный язык программирования для разработки мобильных и веб-приложений", img: "./img/tehnalogi/java.webp"  },
-  { name: "C#", path: "Csharp", title: "C# — универсальный язык программирования от Microsoft, используемый для разработки приложений, игр и веб-сервисов на платформе .NET", img: "./img/tehnalogi/csharp.svg"  },
-  { name: "C++", path: "Cpp", title: "Мощный, универсальный язык для высокопроизводительных систем и приложений", img: "./img/tehnalogi/cpp.webp"  },
-  { name: "Golang", path: "Golang", title: "Быстрый, простой, безопасный язык для серверных приложений и микросервисов", img: "./img/tehnalogi/golang.webp" },
-];
 
-  const OtherTechnologies = [
-    { name: 'Git', path: 'git', title: 'Программа для отслеживания и ведения истории изменения файлов в вашем проекте.', img: './img/tehnalogi/git.webp' },
-    { name: 'Docker', path: 'docker', title: 'Самая популярная программа для разработки, доставки и запуска контейнерных приложений.', img: './img/tehnalogi/docker.webp' },
-    { name: 'Computer Science', path: 'computer_science', title: 'Базовые знания по устройству компьютера, интернета и алгоритмов.', img: './img/tehnalogi/computer_science.webp' },
-  ]
-
-  const frontendCards = [
-  { name: "Frontend", path: "Frontend", img: "frontend",  title: "Подборка самых частых вопросов на собеседованиях фронтенд разработчикам" },
-];
 
   return (
     <section className="w-full m-auto overflow-x-hidden [&::-webkit-scrollbar]:hidden [&::webkit-scrollbar]:w-0">
@@ -45,18 +30,6 @@ export default function QuestionsSection({}) {
 
       <div className="lg:px-0 max-w-5xl mx-auto px-4 py-5 text-[var(--color-text)]">
         <div className="flex flex-col md:items-start items-center">
-          <div className="mb-5">
-            <h1 className="lg:text-5xl text-4xl font-bold mb-5">
-              База вопросов
-            </h1>
-            <h2 className="text-xl leading-7">
-              Изучай нужные тебе технологии. Отвечай на вопросы и <br />
-              отслеживай{" "}
-              <Link to="/profile" className="text-[#09B87E]">
-                свой прогресс
-              </Link>
-            </h2>
-          </div>
 
            <div className="mb-10 w-full relative">
             <h2 className="lg:text-4xl text-3xl font-bold mb-5">Backend</h2>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { roadmaps } from '../data/roadmapData';
+import { roadmaps } from '../shared/data/roadmapData';
 
 const Roadmaps = () => {
 

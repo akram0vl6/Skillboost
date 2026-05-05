@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { roadmaps } from '../data/roadmapData';
+import { roadmaps } from '../shared/data/roadmapData';
 import { Link } from 'react-router-dom'
 
-import PythonMindMap from '../components/PythonMindMap';
-import ModalGraph from './modalGraph';
+import PythonMindMap from '../widgets/PythonMindMap';
+import ModalGraph from '../shared/ui/modalGraph';
 
-const Roadmap = () => {
+const RoadmapCard = () => {
     const [data, setData] = useState(null);
     const [isModal, setIsModal] = useState(true)
     const [selectedNode, setSelectedNode] = useState(null);
     const { tech } = useParams();
-    
+
     useEffect(() => {
         const found = roadmaps.find(item => item.path === tech);
         setData(found || null);
     }, [tech, roadmaps]);
-    
+
     useEffect(() => {
         if (data) {
             console.log('Данные загружены:', data);
@@ -28,7 +28,7 @@ const Roadmap = () => {
     if (!data) {
         return <div>Загрузка или карта не найдена...</div>;
     }
-    
+
     return (
         <div className='flex flex-col lg:flex-row justify-between gap-6 lg:gap-8'>
             <div className='flex-1 min-w-0 text-[var(--color-text)]'>
@@ -70,4 +70,4 @@ const Roadmap = () => {
     );
 };
 
-export default Roadmap;
+export default RoadmapCard;
