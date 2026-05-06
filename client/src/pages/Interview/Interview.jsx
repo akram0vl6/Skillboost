@@ -197,7 +197,7 @@ const Interview = () => {
           </div>
         )}
 
-        <div className="flex gap-5 mt-4">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 mt-6">
           <button
             className="  text-[var(--color-text)] flex items-center gap-2 border-2 border-[var(--color-text)] rounded-lg px-2 py-1 cursor-pointer hover:border-[var(--color-main)] hover:text-[var(--color-main)] duration-300 "
             onClick={() =>

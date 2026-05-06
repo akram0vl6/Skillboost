@@ -952,7 +952,6 @@ export const NODES = [
   }
   ];
 
-// export const NODES = [
 //   // Заголовки
 //   { left: -173.17, top: -161.77, width: 126, height: 68, fontSize: 28, text: "Python", type: "header" },
 //   { left: 281.1, top: 1291.47, width: 145, height: 36, fontSize: 17, text: "Документация", type: "header" },

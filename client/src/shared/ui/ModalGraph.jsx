@@ -1,33 +1,20 @@
-// ModalGraph.jsx
+
+
 import React, { useEffect } from 'react';
 
 const ModalGraph = ({ isOpen, onClose, nodeData }) => {
-  // Блокируем скролл тела при открытом модальном окне
+
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
+    return () => { document.body.style.overflow = 'unset'; };
   }, [isOpen]);
 
-  // Закрытие по Escape
   useEffect(() => {
-    const handleEsc = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
+    const handleEsc = (e) => { if (e.key === 'Escape' && isOpen) onClose(); };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
-  // Данные узла (с защитой от undefined)
   const nodeInfo = nodeData?.data || nodeData || {};
   const {
     label,
@@ -40,52 +27,34 @@ const ModalGraph = ({ isOpen, onClose, nodeData }) => {
 
   return (
     <>
-      {/* Затемнённый фон (оверлей) */}
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-500 ${
+          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
         onClick={onClose}
       />
       
-      {/* Модальное окно (выезжает справа) */}
+
       <div
         className={`
           fixed top-0 right-0 h-full w-full sm:w-96 md:w-[450px] 
-          bg-[var(--bg-03)]
-          text-[var(--color-text)]
-          shadow-2xl z-50 
-          flex flex-col
-          transform transition-transform duration-300 ease-out
+          bg-[var(--bg-03)] text-[var(--color-text)]
+          shadow-2xl z-50 flex flex-col
+          transform transition-transform duration-500 ease-in-out
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
-        {/* Заголовок с кнопкой закрытия */}
+
         <div className="flex items-center justify-between p-5 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-[var(--color-text)]">
-            {label || 'Информация'}
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            <svg
-              className="w-6 h-6 text-gray-500 dark:text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+          <h2 className="text-xl font-bold">{label || 'Информация'}</h2>
+          <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        {/* Контент */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
-          {/* Теги (уровень сложности + время изучения) */}
           <div className="flex flex-wrap gap-2">
             {difficulty && (
               <span className="inline-block px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-[var(--color-text)] dark:bg-blue-900/30 ">
@@ -99,7 +68,6 @@ const ModalGraph = ({ isOpen, onClose, nodeData }) => {
             )}
           </div>
 
-          {/* Описание */}
           {description && (
             <div>
               <h3 className="text-sm font-semibold mb-2 uppercase tracking-wide">
@@ -111,7 +79,6 @@ const ModalGraph = ({ isOpen, onClose, nodeData }) => {
             </div>
           )}
 
-          {/* Задачи (tasks) */}
           {tasks.length > 0 && (
             <div>
               <h3 className="text-sm font-semibold  mb-2 uppercase tracking-wide">
@@ -128,7 +95,6 @@ const ModalGraph = ({ isOpen, onClose, nodeData }) => {
             </div>
           )}
 
-          {/* Ресурсы (resources) */}
           {resources.length > 0 && (
             <div>
               <h3 className="text-sm font-semibold mb-2 uppercase tracking-wide">
@@ -154,7 +120,6 @@ const ModalGraph = ({ isOpen, onClose, nodeData }) => {
             </div>
           )}
 
-          {/* Если нет никакой информации */}
           {!description && tasks.length === 0 && resources.length === 0 && (
             <div className="text-center text-gray-400 py-8">
               <svg

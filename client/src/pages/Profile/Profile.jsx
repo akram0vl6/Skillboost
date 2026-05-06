@@ -10,10 +10,10 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState(0); // 0 - Информация, 1 - Избранное
   const [visibleAnswerIndex, setVisibleAnswerIndex] = useState(null);
   const [bookmarks, setBookmarks] = useState([]);
-  
+
   const storedData = JSON.parse(localStorage.getItem("data")) || {};
   const avatarUrl = storedData.avatarUrl ? storedData.avatarUrl : null;
-  
+
   const navigate = useNavigate();
 
   // Загружаем избранное из localStorage при монтировании
@@ -133,17 +133,16 @@ const Profile = () => {
           <div className="p-4">
             <h3 className="text-xl font-bold mb-3 text-[var(--color-text)]">Избранное</h3>
             <div className="space-y-2">
-              {bookmarks.length > 0 ? (
+              {bookmarks ? (
                 bookmarks.map((item, index) => (
-                  <section key={item._id} className="scroll-my-[75px] shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1),_0_10px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-none dark:border dark:border-surface-500 w-full py-2 px-4 rounded-2xl my-4">
+                  <section key={item._id} className="text-[var(--color-text)] shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1),_0_10px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-none dark:border dark:border-surface-500 w-full py-2 px-4 rounded-2xl my-4">
                     <section className="relative w-full">
                       <section className="flex flex-col gap-3 pt-4 pb-2">
                         <section className="flex flex-col gap-2 text-sm">
                           <header className="text-xl font-medium flex gap-2 items-center">
-                            <span className="min-w-[10px] min-h-[10px] inline-block rounded-full bg-gray-300"></span>
                             <section className="flex items-center gap-2 relative support-selectable">
                               <section>
-                                <h2 className="font-normal">{item.title}</h2>
+                                <h2 className="font-normal text-base sm:text-xl">{item.title}</h2>
                               </section>
                             </section>
                             <section className="relative inline-flex ml-auto">
@@ -157,7 +156,7 @@ const Profile = () => {
                             </section>
                           </header>
 
-                          <div className="rounded-2xl p-0.5 px-3 w-fit font-medium text-base bg-[var(--bg-02)]">
+                          <div className="rounded-2xl p-0.5 px-3 w-fit font-medium text-base bg-[var(--bg-03)]">
                             {item.difficulty || "Без уровня"}
                           </div>
                           <div>
@@ -228,43 +227,36 @@ const Profile = () => {
       ) : (
         <div className="pb-5">
           {/* Табы */}
-          <div className="p-tabview-tablist-scroll-container" data-pc-section="navcontent">
-            <ul className="p-tabview-tablist relative flex gap-10" data-pc-section="nav">
+          <div className="relative">
+            {/* Список табов */}
+            <ul className="flex list-none p-0 m-0 relative w-[260px]">
               {tabs.map((tab) => (
-                <li
-                  key={tab.id}
-                  className={`p-tabview-tablist-item ${activeTab === tab.id ? 'p-tabview-tablist-item-active' : ''}`}
-                  role="presentation"
-                  data-pc-section="header"
-                  data-pc-name="tabpanel"
-                  data-p-active={activeTab === tab.id}
-                  data-pc-index={tab.id}
-                >
-                  <a
-                    className="p-tabview-tab-header text-lg cursor-pointer"
-                    tabIndex={activeTab === tab.id ? 0 : -1}
-                    role="tab"
-                    aria-selected={activeTab === tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    data-pc-section="headeraction"
+                <li key={tab.id} className="flex-1 sm:flex-none">
+                  <button
+                    onClick={() => {
+                      setActiveTab(tab.id);
+                      setVisibleAnswerIndex(null);
+                    }}
+                    className={`
+            w-full sm:w-auto px-6 py-4 text-sm font-medium transition-colors duration-300
+            ${activeTab === tab.id ? "text-[var(--color-main)]" : "text-[#6e8a9e] hover:text-[var(--color-text)]"}
+          `}
                   >
-                    <span className="p-tabview-tab-title" data-pc-section="headertitle">
-                      {tab.title}
-                    </span>
-                  </a>
+                    {tab.title}
+                  </button>
                 </li>
               ))}
-              {/* Индикатор активной вкладки */}
+
+              {/* Твоя полосочка (Индикатор) */}
               <li
-                className="p-tabview-ink-bar !h-1 absolute bottom-0 transition-all duration-300"
-                role="presentation"
-                aria-hidden="true"
-                data-pc-section="inkbar"
+                className="absolute bottom-0 h-1 transition-all duration-300 ease-in-out"
                 style={{
-                  marginTop: '32px',
-                  width: `${25 / tabs.length}%`,
-                  left: `${(activeTab / tabs.length) * 29}%`,
-                  backgroundColor: 'var(--color-main)'
+                  // Ширина полоски равна 100% разделенному на количество табов
+                  width: `${100 / tabs.length}%`,
+                  // Смещение влево зависит от активного таба
+                  left: `${(activeTab * 100) / tabs.length}%`,
+                  backgroundColor: 'var(--color-main)',
+                  borderRadius: '2px 2px 0 0'
                 }}
               />
             </ul>

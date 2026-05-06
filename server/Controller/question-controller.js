@@ -7,29 +7,10 @@ class QuestionController {
       res.status(200).json(questions);
     } catch (error) {
       res.status(500).json({ message: "Ошибка получения вопросов", error });
-      dsd;
-      f;
     }
   }
 
   async createQuestion(req, res) {
-    // try {
-    //   const { title, question, answer, category, technologies, frameworks, level ,difficulty  } = req.body;
-    //   const newQuestion = new Question({
-    //     title,
-    //     question,
-    //     answer,
-    //     category,
-    //     technologies,
-    //     frameworks,
-    //     level,
-    //     difficulty,
-    //   });
-    //   const savedQuestion = await newQuestion.save();
-    //   res.status(201).json(savedQuestion);
-    // } catch (error) {
-    //   res.status(500).json({ message: "Ошибка создания вопроса", error });
-    // }
     try {
       const questions = req.body;
 
@@ -37,35 +18,27 @@ class QuestionController {
         return res.status(400).json({ message: "Должен быть массив вопросов" });
       }
 
-      // Сопоставление числовых уровней сложности с текстом
+      // Маппинг rating в текстовую сложность
       const difficultyMap = {
-        1: "Стажёр",
-        2: "Стажёр",
-        3: "Junior",
-        4: "Junior",
-        5: "Middle",
-        6: "Middle",
-        7: "Middle",
-        8: "Senior",
-        9: "Senior",
+        "1": "Junior",
+        "2": "Junior",
+        "3": "Middle",
+        "4": "Senior",
       };
 
-      // Преобразуем каждый вопрос
       const formattedQuestions = questions.map((q) => ({
         ...q,
-        difficulty: difficultyMap[q.difficulty] || "Junior", // по умолчанию "Средняя"
+        difficulty: difficultyMap[q.rating] || "Junior",
       }));
 
       const savedQuestions = await Question.insertMany(formattedQuestions);
 
-      soich = res.status(201).json({
+      res.status(201).json({
         message: `✅ Добавлено ${savedQuestions.length} вопросов`,
         data: savedQuestions,
       });
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Ошибка при добавлении вопросов", error });
+      res.status(500).json({ message: "Ошибка при добавлении вопросов", error });
     }
   }
 
@@ -82,51 +55,145 @@ class QuestionController {
 
   async catigoryquestion(req, res) {
     try {
-      const { count = 15, category, level } = req.query; // Убрал technologies, frameworks
+      const { count = 15, category, technologies, frameworks, level } = req.query;
+      
+      console.log("🔍 Получены параметры:", { count, category, technologies, frameworks, level });
       
       const filter = {};
+      const conditions = [];
   
-      // Обработка категории
+      // 1️⃣ ФИЛЬТРАЦИЯ ПО НАПРАВЛЕНИЮ (Frontend/Backend/Fullstack)
       if (category) {
-        if (category.toLowerCase() === 'frontend' || category.toLowerCase() === "fullstack") {
-          filter.category = {
-            $in: [
-              'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
-              'HTML', 'CSS', 'TypeScript', 'Next.js'
-            ]
-          };
+        const categoryLower = category.toLowerCase();
+        
+        const categoryMap = {
+          frontend: [
+            'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
+            'HTML', 'CSS', 'TypeScript', 'Next.js', 'Redux',
+            'Webpack', 'SASS', 'LESS', 'Bootstrap', 'Material-UI',
+            'jQuery'
+          ],
+          fullstack: [
+            'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
+            'HTML', 'CSS', 'TypeScript', 'Next.js', 'Node.js',
+            'Express', 'MongoDB', 'PostgreSQL', 'MySQL', 'Docker',
+            'AWS', 'DevOps', 'Fullstack', 'GraphQL', 'REST API'
+          ],
+          backend: [
+            'Backend', 'Node.js', 'Express', 'Python', 'Django',
+            'Java', 'Spring', 'C#', '.NET', 'Go', 'Rust',
+            'PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'GraphQL',
+            'REST API', 'Microservices', 'Docker', 'Kubernetes',
+            'AWS', 'Azure', 'Linux', 'Nginx', 'Kafka', 'RabbitMQ',
+            'PHP', 'Laravel', 'Ruby', 'Ruby on Rails'
+          ],
+        };
+
+        if (categoryMap[categoryLower]) {
+          conditions.push({
+            category: { 
+              $in: categoryMap[categoryLower].map(cat => new RegExp(`^${cat}$`, 'i'))
+            }
+          });
         } else {
-          // Для Backend и других
-          filter.category = { $regex: `^${category}$`, $options: "i" };
+          // Если категория не в мапе, ищем как есть
+          conditions.push({ category: new RegExp(`^${category}$`, 'i') });
         }
       }
   
-      // УРОВЕНЬ СЛОЖНОСТИ
-      if (level) {
-        let mappedLevel = level;
-        if (level === "Стажер") mappedLevel = "Junior";
-        filter.difficulty = { $regex: `^${mappedLevel}$`, $options: "i" };
+      // 2️⃣ ФИЛЬТРАЦИЯ ПО ТЕХНОЛОГИИ/ЯЗЫКУ
+      if (technologies && technologies !== 'all') {
+        conditions.push({ 
+          category: new RegExp(`^${technologies}$`, 'i')
+        });
       }
   
-      console.log("Фильтр для поиска:", filter);
+      // 3️⃣ ФИЛЬТРАЦИЯ ПО ФРЕЙМВОРКУ
+      if (frameworks && frameworks !== 'all') {
+        conditions.push({
+          $or: [
+            { category: new RegExp(`^${frameworks}$`, 'i') },
+            { answer: new RegExp(frameworks, 'i') },
+            { title: new RegExp(frameworks, 'i') }
+          ]
+        });
+      }
   
-      const questions = await Question.aggregate([
-        { $match: filter },
-        { $sample: { size: Number(count) } },
-      ]);
+      // 4️⃣ ФИЛЬТРАЦИЯ ПО УРОВНЮ СЛОЖНОСТИ
+      if (level) {
+        const ratingMap = {
+          'Стажёр': ['1', '2'],
+          'Стажер': ['1', '2'],
+          'Junior': ['1', '2'],
+          'Middle': ['2', '3'],
+          'Senior': ['3', '4'],
+          'Lead': ['4', '5']
+        };
+        
+        const ratings = ratingMap[level] || ['1', '2'];
+        conditions.push({ 
+          rating: { $in: ratings }
+        });
+      }
+  
+      // Объединяем все условия через $and
+      if (conditions.length > 0) {
+        filter.$and = conditions;
+      }
+  
+      console.log("📊 Итоговый фильтр:", JSON.stringify(filter, null, 2));
+  
+      // Получаем вопросы
+      let questions;
+      const questionCount = Math.min(Number(count), 50);
+      
+      try {
+        questions = await Question.aggregate([
+          { $match: filter },
+          { $sample: { size: questionCount } },
+        ]);
+        
+        console.log(`✅ Aggregate вернул: ${questions.length} вопросов`);
+      } catch (aggregateError) {
+        console.log("⚠️ Aggregate failed, using find");
+        
+        questions = await Question.find(filter)
+          .limit(questionCount)
+          .lean();
+        
+        // Перемешиваем
+        for (let i = questions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [questions[i], questions[j]] = [questions[j], questions[i]];
+        }
+        
+        questions = questions.slice(0, questionCount);
+        console.log(`✅ Find вернул: ${questions.length} вопросов`);
+      }
+  
+      // Показываем пример уровней найденных вопросов
+      if (questions.length > 0) {
+        const ratings = questions.map(q => q.rating);
+        console.log("📈 Уровни вопросов:", ratings);
+      } else {
+        console.log("❌ Вопросы не найдены!");
+      }
   
       res.json(questions);
+      
     } catch (error) {
-      console.error("Ошибка загрузки вопросов", error);
+      console.error("❌ Ошибка загрузки вопросов:", error);
       res.status(500).json({ message: "Ошибка загрузки вопросов", error });
     }
   }
 
   async getQuestion(req, res) {
     try {
-      const { tech, difficulty } = req.query; // сразу берём оба
-      const filter = { category: tech }; // фильтр по категории
-      if (difficulty) filter.difficulty = difficulty; // добавляем сложность, если есть
+      const { tech, difficulty } = req.query;
+      const filter = {};
+      
+      if (tech) filter.category = new RegExp(`^${tech}$`, 'i');
+      if (difficulty) filter.difficulty = difficulty;
 
       const questions = await Question.find(filter);
       res.status(200).json(questions);

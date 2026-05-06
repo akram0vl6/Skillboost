@@ -58,14 +58,12 @@ const RoadmapCard = () => {
                 </Link>
                 <h1 className="lg:text-5xl text-4xl font-bold mb-5">{data.name}</h1>
                 <p className='text-xl' >{data.title}</p>
-                <PythonMindMap isModal={isModal} setIsModal={setIsModal} setSelectedNode={setSelectedNode} />
-                {/* <img className='bg-black border-2 rounded-2xl my-10' src={data.roadmap} alt={data.name} /> */}
-            </div>
-            {isModal && (
+                <PythonMindMap isModal={isModal} setIsModal={setIsModal} setSelectedNode={setSelectedNode} />            </div>
+            
                 <ModalGraph isOpen={isModal}
                     onClose={() => setIsModal(false)}
                     nodeData={selectedNode} />
-            )}
+          
         </div>
     );
 };

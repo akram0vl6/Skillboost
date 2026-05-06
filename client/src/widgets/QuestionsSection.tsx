@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {backendCards, OtherTechnologies, frontendCards} from '../shared/data/questionData'
+import { backendCards, OtherTechnologies, frontendCards } from '../shared/data/questionData'
 
-export default function QuestionsSection({}) {
+export default function QuestionsSection({ }) {
 
 
   return (
@@ -31,79 +31,79 @@ export default function QuestionsSection({}) {
       <div className="lg:px-0 max-w-5xl mx-auto px-4 py-5 text-[var(--color-text)]">
         <div className="flex flex-col md:items-start items-center">
 
-           <div className="mb-10 w-full relative">
+          <div className="mb-10 w-full relative">
             <h2 className="lg:text-4xl text-3xl font-bold mb-5">Backend</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {backendCards.map((card) => (
 
-              <Link
-                to={`/baza_voprosov/${card.path}`}
-                className="group/link duration-150"
-                aria-label={`Перейти на базу вопросов по теме ${card.name}`}
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src={`${card.img}`}
-                        alt="Python"
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        {card.name}
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        {card.title}
-                      </p>
-                    </div>
-                  </section>
+                <Link
+                  to={`/baza_voprosov/${card.path}`}
+                  className="group/link duration-150"
+                  aria-label={`Перейти на базу вопросов по теме ${card.name}`}
+                >
+                  <section className="sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
+                    <section className="flex gap-4">
+                      <div className="bg-st-black-10 dark:bg-st-white-T10 w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-[15px] sm:rounded-[20px] flex justify-center items-center p-1.5">
+                        <img
+                          className="w-full h-full object-contain"
+                          src={`${card.img}`}
+                          alt="Python"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-base sm:text-xl mb-1 sm:mb-2 line-clamp-1 text-[var(--color-text)]">
+                          {card.name}
+                        </h3>
+                        <p className="text-st-gray-65 text-xs sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2 leading-tight">
+                          {card.title}
+                        </p>
+                      </div>
+                    </section>
 
-                </section>
-              </Link>
+                  </section>
+                </Link>
               ))}
 
 
 
             </div>
 
-          </div> 
+          </div>
 
           {/* Frontend Section  */}
           <div className="mb-10 w-full relative">
             <h2 className="lg:text-4xl text-3xl font-bold mb-5">Frontend</h2>
             {frontendCards.map((card) => (
-              
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Frontend Card */}
-              <Link
-                to={`/baza_voprosov/${card.path}`}
-                className="group/link duration-150"
-                aria-label={`Перейти на базу вопросов по теме ${card.name}`}
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src={`./img/tehnalogi/${card.img}.webp`}
-                        alt={card.name}
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        {card.name}
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        {card.title}
-                      </p>
-                    </div>
-                  </section>
 
-                </section>
-              </Link>
-            </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Frontend Card */}
+                <Link
+                  to={`/baza_voprosov/${card.path}`}
+                  className="group/link duration-150"
+                  aria-label={`Перейти на базу вопросов по теме ${card.name}`}
+                >
+                  <section className="sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
+                    <section className="flex gap-4">
+                      <div className="bg-st-black-10 dark:bg-st-white-T10 w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-[15px] sm:rounded-[20px] flex justify-center items-center p-1.5">
+                        <img
+                          className="w-full h-full object-contain"
+                          src={`./img/tehnalogi/${card.img}.webp`}
+                          alt={card.name}
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-base sm:text-xl mb-1 sm:mb-2 line-clamp-1 text-[var(--color-text)]">
+                          {card.name}
+                        </h3>
+                        <p className="text-st-gray-65 text-xs sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2 leading-tight">
+                          {card.title}
+                        </p>
+                      </div>
+                    </section>
+
+                  </section>
+                </Link>
+              </div>
             ))}
           </div>
 
@@ -116,9 +116,9 @@ export default function QuestionsSection({}) {
                 className="group/link duration-150"
                 aria-label="Перейти на базу вопросов по теме SQL"
               >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
+                <section className=" sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
                   <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
+                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-[15px] sm:rounded-[20px] flex justify-center items-center p-1.5">
                       <img
                         className="w-full h-full object-contain"
                         src="./img/tehnalogi/database.webp"
@@ -148,34 +148,34 @@ export default function QuestionsSection({}) {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {OtherTechnologies.map((card) => (
 
-              <Link
-                to={`/baza_voprosov/${card.path}`}
-                className="group/link duration-150"
-                aria-label={`Перейти на базу вопросов по теме ${card.name}`}
-              >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
-                  <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
-                      <img
-                        className="w-full h-full object-contain"
-                        src={`${card.img}`}
-                        alt={card.name}
-                      />
-                    </div>
-                    <div className="max-w-[275px] flex-1">
-                      <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
-                        {card.name}
-                      </h3>
-                      <p className="text-st-gray-65 text-sm sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2">
-                        {card.title}
-                      </p>
-                    </div>
-                  </section>
+                <Link
+                  to={`/baza_voprosov/${card.path}`}
+                  className="group/link duration-150"
+                  aria-label={`Перейти на базу вопросов по теме ${card.name}`}
+                >
+                  <section className=" sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
+                    <section className="flex gap-4">
+                      <div className="bg-st-black-10 dark:bg-st-white-T10 w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-[15px] sm:rounded-[20px] flex justify-center items-center p-1.5">
+                        <img
+                          className="w-full h-full object-contain"
+                          src={`${card.img}`}
+                          alt={card.name}
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-base sm:text-xl mb-1 sm:mb-2 line-clamp-1 text-[var(--color-text)]">
+                          {card.name}
+                        </h3>
+                        <p className="text-st-gray-65 text-xs sm:text-base dark:text-st-gray-45 group-hover/link:text-st-green-90 transition-colors line-clamp-2 leading-tight">
+                          {card.title}
+                        </p>
+                      </div>
+                    </section>
 
-                </section>
-              </Link>
+                  </section>
+                </Link>
               ))}
-       
+
             </div>
           </div>
 
@@ -190,9 +190,9 @@ export default function QuestionsSection({}) {
                 className="group/link duration-150"
                 aria-label="Перейти на базу вопросов по теме Вопросы рекрутеров"
               >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
+                <section className="sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
                   <section className="flex gap-4">
-                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
+                    <div className="bg-st-black-10 dark:bg-st-white-T10 w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0 rounded-[15px] sm:rounded-[20px] flex justify-center items-center p-1.5">
                       <img
                         className="w-full h-full object-contain"
                         src="./img/tehnalogi/recruitment.webp"

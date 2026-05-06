@@ -56,7 +56,7 @@ const StartInterview = () => {
         {category && (
           <>
             <h1 className="block text-[var(--color-text)] my-4 text-lg">Выбери язык</h1>
-            <div className="flex gap-6">
+            <div className="flex flex-col sm:flex-row gap-6">
               {DATA_STRUCTURE[category].languages.map((label) => (
                 <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
                   <input
@@ -81,7 +81,8 @@ const StartInterview = () => {
         {tehnalogies && (
           <>
             <h1 className="block text-[var(--color-text)] my-4 text-lg">Выбери фреймворк</h1>
-            <div className="flex gap-6">
+            <div className="flex flex-col sm:flex-row gap-6">
+
               {DATA_STRUCTURE[category].frameworks.map((label) => (
                 <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
                   <input

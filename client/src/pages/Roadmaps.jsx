@@ -26,7 +26,7 @@ const Roadmaps = () => {
                 className="group/link duration-150"
                 aria-label={`Перейти на базу вопросов по теме ${card.name}`}
               >
-                <section className="min-w-[328px] sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
+                <section className=" sm:w-full h-[112px] bg-[var(--bg-03)] dark:bg-st-white-T5 rounded-2xl gap-2 p-3 sm:gap-4 sm:px-4 sm:py-4 flex justify-between">
                   <section className="flex gap-4">
                     <div className="bg-st-black-10 dark:bg-st-white-T10 w-20 h-20 rounded-[20px] flex justify-center items-center p-1.5">
                       <img
@@ -35,7 +35,7 @@ const Roadmaps = () => {
                         alt="Python"
                       />
                     </div>
-                    <div className="max-w-[275px] flex-1">
+                    <div className=" flex-1">
                       <h3 className="font-bold text-base sm:text-xl mb-2 line-clamp-1">
                         {card.name}
                       </h3>

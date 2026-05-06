@@ -101,19 +101,19 @@ const Results = () => {
           </div>
 
           {/* Краткая статистика (всегда видна справа от лоадера/процента) */}
-         { !loading && (
+          {!loading && (
 
-          <div className="mb-2 px-4 py-3 border-2 border-[#262840] rounded-lg text-[var(--color-text)]">
-            <p className="p">
-              Знаю: <span className="font-semibold">{stats.know}</span>
-            </p>
-            <p className="p">
-              Не знаю: <span className="font-semibold">{stats.dontKnow}</span>
-            </p>
-            <p className="p">
-              Всего: <span className="font-semibold">{total}</span>
-            </p>
-          </div>
+            <div className="mb-2 px-4 py-3 border-2 border-[#262840] rounded-lg text-[var(--color-text)]">
+              <p className="p">
+                Знаю: <span className="font-semibold">{stats.know}</span>
+              </p>
+              <p className="p">
+                Не знаю: <span className="font-semibold">{stats.dontKnow}</span>
+              </p>
+              <p className="p">
+                Всего: <span className="font-semibold">{total}</span>
+              </p>
+            </div>
           )}
         </div>
 
@@ -138,13 +138,12 @@ const Results = () => {
                 >
                   <div className="flex mb-2 items-center gap-3">
                     <span
-                      className={`inline-block w-4 h-4 rounded-full min-w-4 ${
-                        q.stats === "know"
+                      className={`inline-block w-4 h-4 rounded-full min-w-4 ${q.stats === "know"
                           ? "bg-[var(--color-main)]"
                           : "bg-[#ff0000]"
-                      }`}
+                        }`}
                     />
-                    <h3 className="text-2xl">{q.question.title}</h3>
+                    <h3 className="text-lg sm:text-2xl">{q.question.title}</h3>
                   </div>
 
                   <p className="mt-2">{q.question.question}</p>
@@ -165,9 +164,8 @@ const Results = () => {
                       </button>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`fill-st-black dark:fill-white icon mt-1 transition-transform duration-300 ${
-                          openAnswers[index] ? "rotate-180" : ""
-                        }`}
+                        className={`fill-st-black dark:fill-white icon mt-1 transition-transform duration-300 ${openAnswers[index] ? "rotate-180" : ""
+                          }`}
                         width="13"
                         height="8"
                         viewBox="0 0 13 8"

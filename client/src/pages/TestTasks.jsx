@@ -1,11 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { testTasks, specialties } from '../shared/data/testTaskData';
 
 import { Link } from "react-router-dom";
 const TestTasks = () => {
   const [expanded, setExpanded] = useState(false);
   const [selectedSpecialty, setSelectedSpecialty] = useState('all')
+  const [maxHeight, setMaxHeight] = useState('60px')
+  const contentRef = useRef(null)
 
+
+  useEffect(() => {
+    if (contentRef.current) {
+      const scrollHeight = contentRef.current.scrollHeight;
+      setMaxHeight(expanded ? `${scrollHeight}px` : '60px')
+    }
+  }, [expanded])
 
 
   const hendlSpecialty = (name) => {
@@ -43,10 +52,10 @@ const TestTasks = () => {
         </header>
 
         <div
-          className="overflow-hidden transition-all duration-300"
-          style={{ maxHeight: expanded ? "500px" : "60px" }}
+          className="overflow-hidden transition-all duration-500 ease-in-out" 
+          style={{ maxHeight: maxHeight }} 
         >
-          <div className="flex gap-2 flex-wrap py-2 px-1">
+          <div ref={contentRef} className="flex gap-2 flex-wrap py-2 px-1">
             {countSpecialts.map((spec) => (
               <button
                 key={spec.name}
@@ -88,9 +97,9 @@ const TestTasks = () => {
           </svg>
         </button>
       </div>
-      <div>
+      <div className='mt-4'>
         {filteredTasks.map((task) => (
-          <section className="relative w-full flex flex-col p-4 my-4 gap-4 rounded-2xl cursor-pointer border shadow transition-colors">
+          <section className="relative w-full flex flex-col p-4 my-4 gap-4 rounded-2xl cursor-pointer border border-gray-700 shadow transition-colors">
             <header className="flex flex-col gap-1">
               <section className="flex justify-between text-sm">
                 <p>
