@@ -1,23 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { taskDataItem, workerCode } from '../../shared/data/codingTaskData';
+import { workerCode } from '../../shared/data/codingTaskData';
 import { TaskTags } from '../../widgets/Coding/CodingTaskTags';
 import { CodingEditorPanel } from '../../widgets/Coding/CodingEditorPanel';
 import { useParams } from 'react-router-dom';
+import { tasksData } from '../../shared/data/codingData';
 
 export const CodingPage = () => {
   // 1. Получаем id из URL
   const { id } = useParams();
-  
+  console.log(id);
+
   // 2. Состояния
   const [activeTab, setActiveTab] = useState('description');
-  const [currentTaskId, setCurrentTaskId] = useState(Number(id) || 1);
+  const [currentTaskId, setCurrentTaskId] = useState(Number(id));
   const [code, setCode] = useState('');  // ← БЫЛО ПОТЕРЯНО!
   const [results, setResults] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [bottomTab, setBottomTab] = useState('result');
 
   // 3. Находим текущую задачу (после того как currentTaskId установлен)
-  const taskData = taskDataItem.find(t => t.id === currentTaskId) || taskDataItem[0];
+  const taskData = tasksData.find(t => t.id === currentTaskId)
 
   // 4. Обновляем код при смене задачи
   useEffect(() => {
@@ -107,6 +109,7 @@ export const CodingPage = () => {
       </div>
     );
   }
+  console.log(taskData);
 
   return (
     <div className="text-[var(--color-text)] flex flex-col h-screen mb-10">
@@ -120,11 +123,10 @@ export const CodingPage = () => {
             <button
               onClick={handleRun}
               disabled={isRunning}
-              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                isRunning
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${isRunning
                   ? 'bg-gray-600 cursor-not-allowed'
                   : 'bg-gray-700 hover:bg-gray-600'
-              }`}
+                }`}
             >
               {isRunning ? 'Выполняется...' : '▶ Запустить'}
             </button>
@@ -149,11 +151,10 @@ export const CodingPage = () => {
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-                  activeTab === tab.key
+                className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.key
                     ? 'border-[var(--color-main)] text-[var(--color-main)]'
                     : 'border-transparent text-gray-400 hover:text-gray-300'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -173,7 +174,14 @@ export const CodingPage = () => {
                   </button>
                 </div>
 
-                <TaskTags taskData={taskData} />
+                <TaskTags
+                  difficulty={taskData.difficulty}
+                  status={taskData.status}
+                  companies={taskData.companies}
+                  extraCompanies={taskData.extraCompanies}
+                  solvedPercent={taskData.solvedPercent}
+                  languages={taskData.languages}
+                />
 
                 <div className="prose prose-invert prose-sm max-w-none space-y-3">
                   {taskData.description.map((paragraph, idx) => (
@@ -228,6 +236,7 @@ export const CodingPage = () => {
 
         {/* Right Side - Code Editor Panel */}
         <CodingEditorPanel
+          Language={taskData.languages}
           code={code}
           onCodeChange={setCode}
           results={results}

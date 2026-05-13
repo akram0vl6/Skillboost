@@ -1,10 +1,25 @@
-export const TaskTags = ({ difficulty, status, company, acceptance, language }) => {
+export const TaskTags = ({ 
+  difficulty, 
+  companies,       
+  extraCompanies,   
+  solvedPercent,    
+  languages,       
+}) => {
+
   const tags = [
-    { label: difficulty, color: 'orange' },
-    { label: status, color: status === 'Решено' ? 'green' : 'red' },
-    { label: company, color: 'gray' },
-    { label: acceptance, color: 'gray' },
-    { label: language, color: 'yellow' },
+
+    { 
+      label: difficulty, 
+      color: difficulty === 'Сложная' ? 'red' : difficulty === 'Средняя' ? 'orange' : 'green' 
+    },
+
+    ...companies.map(company => ({ label: company, color: 'gray' })),
+
+    ...(extraCompanies > 0 ? [{ label: `+${extraCompanies}`, color: 'gray' }] : []),
+
+    { label: `${solvedPercent}%`, color: 'gray' },
+
+    ...languages.map(lang => ({ label: lang, color: 'yellow' })),
   ];
 
   return (
