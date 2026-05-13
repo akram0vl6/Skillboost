@@ -7,6 +7,9 @@ const ThemeToggle = () => {
   );
 
   useEffect(() => {
+    const nextTheme = isDark ? "dark" : "light";
+
+
     if (isDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -14,6 +17,9 @@ const ThemeToggle = () => {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
+
+    const event = new CustomEvent("themeChanged", { detail: nextTheme });
+    window.dispatchEvent(event);
   }, [isDark]);
 
   return (

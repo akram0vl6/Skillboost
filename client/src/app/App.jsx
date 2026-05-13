@@ -18,7 +18,9 @@ import Roadmaps from "../pages/Roadmaps.jsx";
 import Roadmap from "../entities/RoadmapCard.jsx";
 import StartInterview from "../pages/Interview/StartInterview.jsx";
 import Questions from "../pages/Questions/Questions.jsx";
-import Coding from "../pages/Сoding.jsx";
+// import Coding from "../pages/Сoding.jsx";
+import { CodingPage } from "../pages/Coding/CodingPage.jsx";
+import Coding from "../pages/Coding/Сoding.jsx";
 
 const App = () => {
 
@@ -46,6 +48,7 @@ const App = () => {
           <Route path="/roadmaps" element={<Roadmaps />} />
           <Route path="/roadmaps/:tech" element={<Roadmap />} />
           <Route path="/coding" element={<Coding />} />
+          <Route path="/coding/:id" element={<CodingPage />} />
         </Routes>
       </div>
 

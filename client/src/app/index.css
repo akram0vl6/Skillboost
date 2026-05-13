@@ -18,6 +18,27 @@
     --bg-03: #ECEEF1 ;
   --bg-04: #333B45 ;
   --text-1: "Druk Wide Bold", sans-serif;
+
+    /* Переменные для тегов — СВЕТЛАЯ ТЕМА */
+    --tag-orange-bg: #FFF7ED;
+    --tag-orange-text: #C2410C;
+    --tag-orange-border: #FDBA74;
+  
+    --tag-red-bg: #FEF2F2;
+    --tag-red-text: #DC2626;
+    --tag-red-border: #FCA5A5;
+  
+    --tag-green-bg: #F0FDF4;
+    --tag-green-text: #16A34A;
+    --tag-green-border: #86EFAC;
+  
+    --tag-gray-bg: #F3F4F6;
+    --tag-gray-text: #4B5563;
+    --tag-gray-border: #D1D5DB;
+  
+    --tag-yellow-bg: #FEFCE8;
+    --tag-yellow-text: #CA8A04;
+    --tag-yellow-border: #FDE047;
 }
 
 .dark {
@@ -30,7 +51,27 @@
   --bg-footer: #1B1D36 ;
   --bg-03: #0F112B ;
   --bg-04: #D0D5DD ;
-  --p-01:
+
+    /* Переменные для тегов — ТЁМНАЯ ТЕМА */
+    --tag-orange-bg: rgba(124, 45, 18, 0.5);
+    --tag-orange-text: #FB923C;
+    --tag-orange-border: #C2410C;
+  
+    --tag-red-bg: rgba(127, 29, 29, 0.5);
+    --tag-red-text: #F87171;
+    --tag-red-border: #DC2626;
+  
+    --tag-green-bg: rgba(20, 83, 45, 0.5);
+    --tag-green-text: #4ADE80;
+    --tag-green-border: #16A34A;
+  
+    --tag-gray-bg: #374151;
+    --tag-gray-text: #D1D5DB;
+    --tag-gray-border: #4B5563;
+  
+    --tag-yellow-bg: rgba(113, 63, 18, 0.5);
+    --tag-yellow-text: #FACC15;
+    --tag-yellow-border: #CA8A04;
 }
 
 /* 3. Tailwind components */

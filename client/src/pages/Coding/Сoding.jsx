@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { allCompanies, tasksData } from '../shared/data/codingData';
-import LanguageSelect from '../widgets/CodingLanguageSelect';
-import CodingTaskCard from '../entities/CodingTaskCard';
+import { allCompanies, tasksData } from '../../shared/data/codingData';
+import LanguageSelect from '../../widgets/Coding/CodingLanguageSelect';
+import CodingTaskCard from '../../entities/CodingTaskCard';
+import { Link } from 'react-router-dom';
 
 export default function Coding() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -65,7 +66,7 @@ export default function Coding() {
           className="overflow-hidden transition-all duration-500 ease-in-out"
           style={{ maxHeight: maxHeight }}
         >
-          <div 
+          <div
             ref={contentRef}
             className="flex gap-2 flex-wrap pb-2"
           >
@@ -73,11 +74,10 @@ export default function Coding() {
               <button
                 key={spec.name}
                 onClick={() => handleCompanyClick(spec.name)}
-                className={`${
-                  spec.name === activeCompany 
-                    ? 'bg-[var(--bg-04)] text-[var(--bg-02)]' 
+                className={`${spec.name === activeCompany
+                    ? 'bg-[var(--bg-04)] text-[var(--bg-02)]'
                     : ''
-                } py-[5px] flex items-center rounded-full px-3 text-center border hover:shadow transition-all duration-300`}
+                  } py-[5px] flex items-center rounded-full px-3 text-center border hover:shadow transition-all duration-300`}
               >
                 {spec.icon && (
                   <span className="flex mr-1 bg-gray-100 rounded-full p-1 min-w-6 min-h-6 items-center justify-around">
@@ -105,7 +105,7 @@ export default function Coding() {
             height="15.08"
             viewBox="0 0 13 14"
             className="transition-transform duration-500 ease-in-out"
-            style={{ 
+            style={{
               transform: showAllCompanies ? 'rotate(180deg)' : 'rotate(0deg)',
             }}
           >
@@ -128,9 +128,9 @@ export default function Coding() {
           onChange={(e) => setSearchQuery(e.target.value)}
           className="flex-1 border border-gray-700 rounded-lg px-4 py-3 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500"
         />
-        <LanguageSelect 
-          value={selectedLanguage} 
-          onChange={(e) => setSelectedLanguage(e.target.value)} 
+        <LanguageSelect
+          value={selectedLanguage}
+          onChange={(e) => setSelectedLanguage(e.target.value)}
         />
       </div>
 
@@ -138,7 +138,10 @@ export default function Coding() {
       {filteredTasks.length > 0 ? (
         <div className="w-full flex flex-col gap-4 rounded-2xl cursor-pointer">
           {filteredTasks.map((task) => (
-            <CodingTaskCard key={task.id} task={task} />
+            <Link to={`/coding/${task.id}`}>
+
+              <CodingTaskCard key={task.id} task={task} />
+            </Link>
           ))}
         </div>
       ) : (

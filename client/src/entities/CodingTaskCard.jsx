@@ -39,6 +39,7 @@ const CodingTaskCard = ({ task }) => {
 
   return (
     <div
+      
       className={`rounded-xl p-5 border border-gray-700 hover:border-gray-500 transition-colors`}
     >
       <h3 className="text-lg font-medium text-[var(--color-text)] mb-2">
