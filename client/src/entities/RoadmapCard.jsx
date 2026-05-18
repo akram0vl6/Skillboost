@@ -4,7 +4,7 @@ import { roadmaps } from '../shared/data/roadmapData';
 import { Link } from 'react-router-dom'
 
 import PythonMindMap from '../widgets/PythonMindMap';
-import ModalGraph from '../shared/ui/modalGraph';
+import ModalGraph from '../shared/ui/ModalGraph';
 
 const RoadmapCard = () => {
     const [data, setData] = useState(null);
