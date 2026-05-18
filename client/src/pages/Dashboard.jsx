@@ -55,7 +55,7 @@ const Dashboard = () => {
 
           <article className="flex flex-col justify-end gap-2 sm:gap-3">
             <img
-              src="../../public/img/tehnalogi/mainpage-languages.Cz59Uxeo.webp"
+              src="/img/tehnalogi/mainpage-languages.Cz59Uxeo.webp"
               className="w-full"
               alt="coding languages"
               loading="lazy"
