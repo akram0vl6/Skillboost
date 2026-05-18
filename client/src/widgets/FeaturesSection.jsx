@@ -32,7 +32,7 @@ const FeaturesSection = () => {
                                     {/* Python */}
                                     <section className="flex items-center max-w-96 gap-3 border border-transparent bg-[var(--bg-02)] dark:bg-st-white-T10 dark:border-st-gray-90 p-2 rounded-xl shadow-lg absolute top-6 left-0 rotate-2">
                                         <div className="w-12 h-12 min-w-12 rounded-lg bg-st-black-10 dark:bg-gray-900 p-1 flex items-center justify-around">
-                                            <img src="../../public/img/tehnalogi/python.svg" alt="Python" />
+                                            <img src="/img/tehnalogi/python.svg" alt="Python" />
                                         </div>
                                         <section className="flex flex-col gap-0.5">
                                             <h3 className="text-xs font-bold text-[var(--color-text)] ">
@@ -84,7 +84,7 @@ const FeaturesSection = () => {
                                     <section className="flex items-center max-w-96 gap-3 border border-transparent bg-[var(--bg-02)] dark:bg-st-white-T10 dark:border-st-gray-90 p-2 rounded-xl shadow-lg absolute top-16 -right-4 left-4 rotate-3">
                                         <div className="w-12 h-12 min-w-12 rounded-lg bg-st-black-10 dark:bg-gray-900 p-1 flex items-center justify-around">
                                             <img
-                                                src="../../public/img/tehnalogi/javascript.webp"
+                                                src="/img/tehnalogi/javascript.webp"
                                                 alt="JavaScript"
                                             />
                                         </div>
@@ -136,7 +136,7 @@ const FeaturesSection = () => {
                                     {/* C# */}
                                     <section className="flex items-center max-w-96 gap-3 border border-transparent bg-[var(--bg-02)] dark:bg-st-white-T10 dark:border-st-gray-90 p-2 rounded-xl shadow-lg absolute top-[108px] left-0">
                                         <div className="w-12 h-12 min-w-12 rounded-lg bg-st-black-10 dark:bg-gray-900 p-1 flex items-center justify-around">
-                                            <img src="../../public/img/tehnalogi/csharp.svg" alt="C#" />
+                                            <img src="/img/tehnalogi/csharp.svg" alt="C#" />
                                         </div>
                                         <section className="flex flex-col gap-0.5">
                                             <h3 className="text-xs font-bold text-[var(--color-text)] ">
@@ -223,7 +223,7 @@ const FeaturesSection = () => {
                             </header>
 
                             <section className="mt-3">
-                                <img src="../../public/img/roadmaps-feature.svg" alt="" />
+                                <img src="/img/roadmaps-feature.svg" alt="" />
                             </section>
 
                             {/* Кнопка “Подробнее” */}
@@ -395,7 +395,7 @@ const FeaturesSection = () => {
                             <section className="flex flex-col gap-2">
                                 <header className="flex gap-1 items-center">
                                     <img
-                                        src="../../public/img/tehnalogi/javascript.webp"
+                                        src="/img/tehnalogi/javascript.webp"
                                         alt="JavaScript"
                                         width="12"
                                         height="12"
@@ -440,7 +440,7 @@ const FeaturesSection = () => {
                             <section className="flex flex-col gap-2">
                                 <header className="flex gap-1 items-center">
                                     <img
-                                        src="../../public/img/tehnalogi/python.svg"
+                                        src="/img/tehnalogi/python.svg"
                                         alt="Python"
                                         width="12"
                                         height="12"
