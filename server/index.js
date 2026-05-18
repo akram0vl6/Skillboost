@@ -20,15 +20,14 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware для надежного подключения к MongoDB в Serverless-среде
 let isConnected = false;
+
 app.use(async (req, res, next) => {
   if (isConnected) {
     return next();
   }
   try {
-    await mongoose.connect(URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Просто передаем URL без устаревших параметров { useNewUrlParser... }
+    await mongoose.connect(URL); 
     isConnected = true;
     console.log("DB ok");
     next();
@@ -37,6 +36,7 @@ app.use(async (req, res, next) => {
     res.status(500).json({ error: "Database connection failed" });
   }
 });
+
 
 // Ваши роуты
 app.use("/api", router);
