@@ -229,9 +229,9 @@ const FeaturesSection = () => {
                             {/* Кнопка “Подробнее” */}
                             <div className=" hidden sm:flex absolute justify-center w-full bottom-5 translate-y-20 group-hover/feature:translate-y-0 place-self-center transition-transform duration-[250ms] z-40">
                                 <a
-                                    href="/baza_voprosov"
+                                    href="/roadmaps"
                                     className="click-effect px-10 py-2.5 rounded-xl shadow-xl bg-st-green-90 text-white bg-[#049666] text-center font-semibold  text-sm"
-                                    aria-label="Перейти к /baza_voprosov"
+                                    aria-label="Перейти к /roadmaps"
                                 >
                                     Подробнее
                                 </a>
@@ -241,9 +241,9 @@ const FeaturesSection = () => {
                         {/* Кнопка “Подробнее” на мобилке */}
                         <div className="flex sm:hidden justify-center w-full">
                             <a
-                                href="/baza_voprosov"
+                                href="/roadmaps"
                                 className="click-effect w-full py-2.5 rounded-xl shadow-xl bg-st-green-90 my-3 bg-[#049666] text-center font-semibold text-white text-sm"
-                                aria-label="Перейти к /baza_voprosov"
+                                aria-label="Перейти к /roadmaps"
                             >
                                 Подробнее
                             </a>

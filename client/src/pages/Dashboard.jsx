@@ -12,7 +12,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="relative flex flex-col pt-10 sm:pt-20 justify-center items-center w-full h-[300px] sm:h-[540px] rounded-xl text-white bg-[linear-gradient(0deg,rgba(135,236,166,1)_0%,rgba(44,167,139,1)_100%)] overflow-hidden">
+      <div className="relative flex flex-col pt-10 sm:pt-20 justify-center items-center w-full h-[350px] sm:h-[540px] rounded-xl text-white bg-[linear-gradient(0deg,rgba(135,236,166,1)_0%,rgba(44,167,139,1)_100%)] overflow-hidden">
         <h1 className="h1 text-4xl sm:text-[100px] sm:leading-[72px] leading-8 mb-4 md:mb-8 text-center font-drukwide">
           Тренажёр <br /> для подготовки
         </h1>
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
           <article className="flex flex-col justify-end gap-2 sm:gap-3">
             <img
-              src="/img/tehnalogi/mainpage-languages.Cz59Uxeo.webp"
+              src="../../public/img/tehnalogi/mainpage-languages.Cz59Uxeo.webp"
               className="w-full"
               alt="coding languages"
               loading="lazy"
