@@ -1,185 +1,216 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { DATA_STRUCTURE, LEVELS } from "../../shared/data/categoryData";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { questionsApi } from "../../shared/api/questions";
+import { IoMdBookmark } from "react-icons/io";
+import { BsBookmark } from "react-icons/bs";
 
-const StartInterview = () => {
-  const [questionCount] = useState(15); // Увеличил с 5 до 15
-  const [category, setCategory] = useState(null);
-  const [technologies, setTechnologies] = useState(null);
-  const [frameworks, setFrameworks] = useState(null);
-  const [level, setLevel] = useState(null);
-
+function QuestionsPage() {
+  const { tech } = useParams(); // например, "python"
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
 
-  // 🔧 Проверяем, нужно ли выбирать фреймворк
-  const needsFramework = category && 
-    DATA_STRUCTURE[category]?.frameworks && 
-    DATA_STRUCTURE[category].frameworks.length > 0;
+  const [questions, setQuestions] = useState([]);
+  const [visibleAnswerIndex, setVisibleAnswerIndex] = useState(null);
+  const [bookmarks, setBookmarks] = useState([]);
+  
+  // Инициализируем difficulty из URL, если есть
+  const [difficulty, setDifficulty] = useState(params.get("difficulty") || null);
 
-  // 🔧 Форма считается заполненной если:
-  // - выбрана категория
-  // - выбрана технология
-  // - выбран фреймворк (ЕСЛИ он нужен для этой категории)
-  // - выбран уровень
-  const isFormComplete = category && 
-    technologies && 
-    (needsFramework ? frameworks : true) && 
-    level;
+  const difficultyLevels = ["Стажёр", "Junior", "Middle", "Senior"];
 
-  const startInterview = () => {
-    const params = new URLSearchParams();
-    params.append('count', questionCount);
-    params.append('category', category);
-    params.append('technologies', technologies);
-    
-    // 🔧 Добавляем frameworks только если он выбран
-    if (frameworks) {
-      params.append('frameworks', frameworks);
+  // Загружаем избранное из localStorage при монтировании
+  useEffect(() => {
+    const savedBookmarks = localStorage.getItem("bookmarks");
+    if (savedBookmarks) {
+      setBookmarks(JSON.parse(savedBookmarks));
     }
+  }, []);
+
+  const toggleBookmark = (question) => {
+    let updated;
+    const exists = bookmarks.some(b => b._id === question._id);
     
-    params.append('level', level);
-    
-    navigate(`/interview?${params.toString()}`);
+    if (exists) {
+      updated = bookmarks.filter(b => b._id !== question._id);
+    } else {
+      updated = [...bookmarks, question];
+    }
+    setBookmarks(updated);
+    localStorage.setItem("bookmarks", JSON.stringify(updated));
+  };
+
+  const fetchQuestions = async () => {
+    try {
+      const query = new URLSearchParams({ tech });
+      if (difficulty) query.set("difficulty", difficulty);
+      const {data} = await questionsApi.getByTech(query);
+      setQuestions(data);
+    } catch (error) {
+      console.error("Ошибка при получении вопросов:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuestions();
+  }, [tech, difficulty]);
+
+  const handleDifficultyClick = (level) => {
+    setDifficulty(level); // useEffect автоматически вызовет fetchQuestions
+    navigate(`?difficulty=${encodeURIComponent(level)}`); // обновляем URL
+  };
+
+  const isBookmarked = (questionId) => {
+    return bookmarks.some(b => b._id === questionId);
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] py-5 px-4">
-      <h1 className="text-4xl font-bold text-[var(--color-text)]">
-        Тренажёр собеседований
-      </h1>
-      
-      <p className="text-[var(--color-text)] mt-4">
-        Практикуйте прохождение технических собеседований с реальными вопросами
-      </p>
+    <div className="text-[var(--color-text)]">
+      <Link to={"/baza_voprosov"} className="truncate">
+        <button className="flex items-center gap-1 text-sm text-st-gray-60 cursor-pointer mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            role="img"
+            className="iconify iconify--st-icons"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+            style={{ fontSize: "16px" }}
+          >
+            <path
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m15 6l-6 6l6 6"
+            ></path>
+          </svg>
+          Вернуться к базе вопросов
+        </button>
+      </Link>
 
-      <div className="mt-10">
-        <h2 className="text-2xl font-bold text-[var(--color-text)] mb-4">
-          Пройти собеседование
-        </h2>
-        
-        {/* 1️⃣ ВЫБОР НАПРАВЛЕНИЯ */}
-        <span className="block text-[var(--color-text)] mb-4 text-lg">
-          Выбери направление
-        </span>
-        <div className="flex flex-wrap gap-4 sm:gap-6">
-          {Object.keys(DATA_STRUCTURE).map((label) => (
-            <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
-              <input
-                type="radio"
-                name="category"
-                checked={category === label}
-                onChange={() => {
-                  setCategory(label);
-                  setTechnologies(null);
-                  setFrameworks(null);
-                }}
-                className="sr-only peer"
-              />
-              <span className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:bg-[#049666] relative"></span>
-              <span className="ml-3 text-lg">{label}</span>
-            </label>
-          ))}
+      <div>
+        <h1 className="lg:text-5xl text-3xl font-bold mb-4">
+          ТОП вопросов по {tech}
+        </h1>
+        <div className="text-xl">
+          Подборка самых частых вопросов на собеседованиях {tech} разработчикам
         </div>
-
-        {/* 2️⃣ ВЫБОР ТЕХНОЛОГИИ/ЯЗЫКА */}
-        {category && (
-          <>
-            <h1 className="block text-[var(--color-text)] my-4 text-lg">
-              Выбери язык/технологию
-            </h1>
-            <div className="flex flex-wrap gap-4 sm:gap-6">
-              {DATA_STRUCTURE[category].languages.map((label) => (
-                <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
-                  <input
-                    type="radio"
-                    name="technologies"
-                    checked={technologies === label}
-                    onChange={() => {
-                      setTechnologies(label);
-                      setFrameworks(null);
-                    }}
-                    className="sr-only peer"
-                  />
-                  <span className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:bg-[#049666] relative"></span>
-                  <span className="ml-3 text-lg">{label}</span>
-                </label>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* 3️⃣ ВЫБОР ФРЕЙМВОРКА (только если есть) */}
-        {technologies && needsFramework && (
-          <>
-            <h1 className="block text-[var(--color-text)] my-4 text-lg">
-              Выбери фреймворк
-            </h1>
-            <div className="flex flex-wrap gap-4 sm:gap-6">
-              {DATA_STRUCTURE[category].frameworks.map((label) => (
-                <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
-                  <input
-                    type="radio"
-                    name="frameworks"
-                    checked={frameworks === label}
-                    onChange={() => setFrameworks(label)}
-                    className="sr-only peer"
-                  />
-                  <span className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:bg-[#049666] relative"></span>
-                  <span className="ml-3 text-lg">{label}</span>
-                </label>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* 4️⃣ ВЫБОР УРОВНЯ */}
-        {(technologies && (!needsFramework || frameworks)) && (
-          <>
-            <h1 className="block text-[var(--color-text)] my-4 text-lg">
-              Выбери уровень
-            </h1>
-            <div className="flex flex-wrap gap-4 sm:gap-6">
-              {LEVELS.map((label) => (
-                <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
-                  <input
-                    type="radio"
-                    name="level"
-                    checked={level === label}
-                    onChange={() => setLevel(label)}
-                    className="sr-only peer"
-                  />
-                  <span className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:bg-[#049666] relative"></span>
-                  <span className="ml-3 text-lg">{label}</span>
-                </label>
-              ))}
-            </div>
-          </>
-        )}
       </div>
 
-      <button
-        onClick={isFormComplete ? startInterview : undefined}
-        disabled={!isFormComplete}
-        className={`w-full mt-10 p-3 rounded-md transition-all text-lg font-medium ${
-          isFormComplete 
-            ? "bg-[var(--color-main)] text-white hover:opacity-90 cursor-pointer" 
-            : "bg-gray-400 text-gray-200 cursor-not-allowed"
-        }`}
-      >
-        Начать собеседование
-      </button>
-      
-      {/* 🔧 Отладка */}
-      {!isFormComplete && (
-        <div className="mt-4 text-sm text-gray-500">
-          {!category && "• Выберите направление\n"}
-          {category && !technologies && "• Выберите язык/технологию\n"}
-          {technologies && needsFramework && !frameworks && "• Выберите фреймворк\n"}
-          {technologies && (!needsFramework || frameworks) && !level && "• Выберите уровень\n"}
+      <div className="flex flex-col gap-2 mt-4">
+        <p className="text-md font-medium">
+          Выберите грейд
+        </p>
+        <div className="flex items-center gap-2 flex-wrap">
+          {difficultyLevels.map((level) => (
+            <div 
+              key={level}
+              onClick={() => handleDifficultyClick(level)} 
+              className="rounded-2xl p-1 px-3 text-md bg-[var(--bg-03)] cursor-pointer hover:bg-[var(--bg-02)] flex gap-1 items-center transition-colors"
+            >
+              <span>{level}</span>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
+
+      <section className="relative w-full my-6">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          role="img"
+          className="absolute top-2 left-2 iconify iconify--ic"
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+          style={{ fontSize: "32px" }}
+        >
+          <path
+            fill="currentColor"
+            d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5S14 7.01 14 9.5S11.99 14 9.5 14"
+          ></path>
+        </svg>
+        <input
+          type="text"
+          className="p-inputtext p-component !px-10 w-full border border-[var(--color-border)] rounded-lg bg-[var(--bg-03)] focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent"
+          placeholder="Введите название или содержание вопроса"
+        />
+      </section>
+
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Вопросы</h2>
+        {questions.length === 0 && <p>Загрузка вопросов...</p>}
+        {questions.map((question, index) => (
+          <section 
+            key={question._id} 
+            className="scroll-my-[75px] shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1),_0_10px_15px_-3px_rgba(0,0,0,0.1)] dark:shadow-none dark:border dark:border-surface-500 w-full py-2 px-4 rounded-2xl my-4"
+          >
+            <section className="relative w-full">
+              <section className="flex flex-col gap-3 pt-4 pb-2">
+                <section className="flex flex-col gap-2 text-sm">
+                  <header className="text-xl font-medium flex gap-2 items-center">
+                    <span className="min-w-[10px] min-h-[10px] inline-block rounded-full bg-gray-300"></span>
+                    <section className="flex items-center gap-2 relative support-selectable">
+                      <section>
+                        <h2 className="font-normal">{question.title}</h2>
+                      </section>
+                    </section>
+                    <section className="relative inline-flex ml-auto">
+                      <button
+                        onClick={() => toggleBookmark(question)}
+                        aria-label="Добавить в избранное"
+                        className="relative flex items-center justify-center"
+                      >
+                        {isBookmarked(question._id) ? (
+                          <IoMdBookmark className="text-[20px] cursor-pointer text-[var(--color-main)]" />
+                        ) : (
+                          <BsBookmark className="text-[20px] cursor-pointer text-[var(--color-text)]" />
+                        )}
+                      </button>
+                    </section>
+                  </header>
+
+                  <div className="rounded-2xl p-0.5 px-3 w-fit font-medium text-base bg-[var(--bg-02)]">
+                    {question.difficulty}
+                  </div>
+                  <div>
+                    Рейтинг вопроса:
+                    <span className="font-medium">
+                      {question.rating}
+                    </span>
+                  </div>
+                </section>
+
+                {visibleAnswerIndex === index ? (
+                  <div className="answer-box">
+                    <p>
+                      <strong>Ответ:</strong> {question.answer}
+                    </p>
+                    <button
+                      className="flex gap-1 items-center text-slate-500 dark:text-slate-400 hover:underline hover:decoration-1 hover:decoration-slate-300 hover:underline-offset-4 mt-2"
+                      onClick={() => setVisibleAnswerIndex(null)}
+                    >
+                      Скрыть ответ
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className="flex gap-1 items-center text-slate-500 dark:text-slate-400 hover:underline hover:decoration-1 hover:decoration-slate-300 hover:underline-offset-4"
+                    onClick={() => setVisibleAnswerIndex(index)}
+                  >
+                    Посмотреть ответ
+                  </button>
+                )}
+              </section>
+            </section>
+          </section>
+        ))}
+      </div>
     </div>
   );
-};
+}
 
-export default StartInterview;
+export default QuestionsPage;

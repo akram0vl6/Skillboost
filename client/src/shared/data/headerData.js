@@ -4,11 +4,8 @@ export const linkList = [
       path: "/baza_voprosov",
     },
     { name: "Тренажёр собеседований", path: "/startInterview" },
-    { name: "Топы вопросов", path: "/podborki_voprosov" },
     { name: "Лайв кодинг", path: "/coding" },
     { name: "Роадмапы", path: "/roadmaps" },
-    { name: "Мой прогресс", path: "/progress" },
-    { name: "Менторы", path: "/mentors" },
   ];
 
 export  const interview = [
