@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: 'https://skillboost-krnb.onrender.com/api',
+    baseURL: 'https://skillboost-t1xt.vercel.app/api',
 })
 
 api.interceptors.request.use((config) => {
