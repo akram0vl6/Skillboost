@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: 'http://localhost:4444/api',
+    baseURL: 'https://skillboost-krnb.onrender.com/api',
 })
 
 api.interceptors.request.use((config) => {
