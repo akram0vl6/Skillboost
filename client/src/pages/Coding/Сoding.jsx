@@ -12,7 +12,16 @@ export default function Coding() {
   const [maxHeight, setMaxHeight] = useState('60px');
   const contentRef = useRef(null);
 
-  // Список компаний для отображения: либо первые 14, либо все
+  // const companiesWithCount = useMemo(() => {
+  //   return allCompanies.map(company => ({
+  //     ...company,
+  //     count: tasksData.filter(task => 
+  //       task.companies.includes(company.name)
+  //     ).length
+  //   }))
+  // }, [])
+
+  
 
 
   // Вычисляем реальную высоту контента при изменении
