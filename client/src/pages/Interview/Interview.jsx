@@ -66,7 +66,7 @@ const Interview = () => {
   const fetchQuestions = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4444/api/questions?category=${category}&technologies=${tehnalogies}&level=${level}`
+        `https://skillboost-t1xt.vercel.app/api/questions?category=${category}&technologies=${tehnalogies}&level=${level}`
       );
       setQuestions(res.data);
       setCurrentIndex(0);
