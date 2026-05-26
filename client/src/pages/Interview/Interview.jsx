@@ -141,7 +141,7 @@ const Interview = () => {
   };
 
   if (questions.length === 0) {
-    return <p className="h-[100vh]">Загрузка вопросов...</p>;
+    return <p className="h-[100vh] text-[var(--color-text)]">Загрузка вопросов...</p>;
   }
 
   return (
