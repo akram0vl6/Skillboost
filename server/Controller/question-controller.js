@@ -62,16 +62,15 @@ class QuestionController {
       const filter = {};
       const conditions = [];
   
-      // 1️⃣ ФИЛЬТРАЦИЯ ПО НАПРАВЛЕНИЮ (Frontend/Backend/Fullstack)
-      if (category) {
+      // 1️⃣ ФИЛЬТРАЦИЯ ПО НАПРАВЛЕНИЮ
+      if (category && category !== 'all') {
         const categoryLower = category.toLowerCase();
         
         const categoryMap = {
           frontend: [
             'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
             'HTML', 'CSS', 'TypeScript', 'Next.js', 'Redux',
-            'Webpack', 'SASS', 'LESS', 'Bootstrap', 'Material-UI',
-            'jQuery'
+            'Webpack', 'SASS', 'LESS', 'Bootstrap', 'Material-UI', 'jQuery'
           ],
           fullstack: [
             'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
@@ -86,41 +85,66 @@ class QuestionController {
             'REST API', 'Microservices', 'Docker', 'Kubernetes',
             'AWS', 'Azure', 'Linux', 'Nginx', 'Kafka', 'RabbitMQ',
             'PHP', 'Laravel', 'Ruby', 'Ruby on Rails'
-          ],
+          ]
         };
-
+  
         if (categoryMap[categoryLower]) {
+          // Ищем по category ИЛИ по полю technologies (строка!)
           conditions.push({
-            category: { 
-              $in: categoryMap[categoryLower].map(cat => new RegExp(`^${cat}$`, 'i'))
-            }
+            $or: [
+              { category: { $in: categoryMap[categoryLower] } },
+              { technologies: { $in: categoryMap[categoryLower] } }
+            ]
           });
         } else {
-          // Если категория не в мапе, ищем как есть
-          conditions.push({ category: new RegExp(`^${category}$`, 'i') });
+          // Конкретная технология
+          conditions.push({
+            $or: [
+              { category: category },
+              { technologies: category }
+            ]
+          });
         }
       }
   
-      // 2️⃣ ФИЛЬТРАЦИЯ ПО ТЕХНОЛОГИИ/ЯЗЫКУ
+      // 2️⃣ ФИЛЬТРАЦИЯ ПО ТЕХНОЛОГИЯМ
       if (technologies && technologies !== 'all') {
-        conditions.push({ 
-          category: new RegExp(`^${technologies}$`, 'i')
-        });
+        // Разбиваем строку на массив
+        const techArray = technologies.split(',').map(t => t.trim()).filter(Boolean);
+        
+        if (techArray.length > 0) {
+          conditions.push({
+            $or: [
+              { technologies: { $in: techArray } },
+              { category: { $in: techArray } },
+              // Ищем в тексте вопроса и ответа
+              { title: { $regex: techArray.join('|'), $options: 'i' } },
+              { question: { $regex: techArray.join('|'), $options: 'i' } },
+              { answer: { $regex: techArray.join('|'), $options: 'i' } }
+            ]
+          });
+        }
       }
   
-      // 3️⃣ ФИЛЬТРАЦИЯ ПО ФРЕЙМВОРКУ
+      // 3️⃣ ФИЛЬТРАЦИЯ ПО ФРЕЙМВОРКАМ
       if (frameworks && frameworks !== 'all') {
-        conditions.push({
-          $or: [
-            { category: new RegExp(`^${frameworks}$`, 'i') },
-            { answer: new RegExp(frameworks, 'i') },
-            { title: new RegExp(frameworks, 'i') }
-          ]
-        });
+        const frameworkArray = frameworks.split(',').map(f => f.trim()).filter(Boolean);
+        
+        if (frameworkArray.length > 0) {
+          conditions.push({
+            $or: [
+              { frameworks: { $in: frameworkArray } },
+              { technologies: { $in: frameworkArray } },
+              { category: { $in: frameworkArray } },
+              { title: { $regex: frameworkArray.join('|'), $options: 'i' } },
+              { answer: { $regex: frameworkArray.join('|'), $options: 'i' } }
+            ]
+          });
+        }
       }
   
-      // 4️⃣ ФИЛЬТРАЦИЯ ПО УРОВНЮ СЛОЖНОСТИ
-      if (level) {
+      // 4️⃣ ФИЛЬТРАЦИЯ ПО УРОВНЮ
+      if (level && level !== 'all') {
         const ratingMap = {
           'Стажёр': ['1', '2'],
           'Стажер': ['1', '2'],
@@ -131,12 +155,10 @@ class QuestionController {
         };
         
         const ratings = ratingMap[level] || ['1', '2'];
-        conditions.push({ 
-          rating: { $in: ratings }
-        });
+        conditions.push({ rating: { $in: ratings } });
       }
   
-      // Объединяем все условия через $and
+      // Объединяем условия
       if (conditions.length > 0) {
         filter.$and = conditions;
       }
@@ -144,45 +166,43 @@ class QuestionController {
       console.log("📊 Итоговый фильтр:", JSON.stringify(filter, null, 2));
   
       // Получаем вопросы
-      let questions;
       const questionCount = Math.min(Number(count), 50);
       
+      let questions;
       try {
         questions = await Question.aggregate([
           { $match: filter },
-          { $sample: { size: questionCount } },
+          { $sample: { size: questionCount } }
         ]);
-        
-        console.log(`✅ Aggregate вернул: ${questions.length} вопросов`);
-      } catch (aggregateError) {
-        console.log("⚠️ Aggregate failed, using find");
-        
-        questions = await Question.find(filter)
-          .limit(questionCount)
-          .lean();
+      } catch (error) {
+        console.log("⚠️ $sample не поддерживается, используем find");
+        const allQuestions = await Question.find(filter).lean();
         
         // Перемешиваем
-        for (let i = questions.length - 1; i > 0; i--) {
+        for (let i = allQuestions.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          [questions[i], questions[j]] = [questions[j], questions[i]];
+          [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
         }
         
-        questions = questions.slice(0, questionCount);
-        console.log(`✅ Find вернул: ${questions.length} вопросов`);
+        questions = allQuestions.slice(0, questionCount);
       }
   
-      // Показываем пример уровней найденных вопросов
-      if (questions.length > 0) {
-        const ratings = questions.map(q => q.rating);
-        console.log("📈 Уровни вопросов:", ratings);
-      } else {
+      console.log(`✅ Найдено вопросов: ${questions.length}`);
+      
+      if (questions.length === 0) {
         console.log("❌ Вопросы не найдены!");
+        
+        // ДЕБАГ: Проверим, какие category и rating есть в БД
+        const allCategories = await Question.distinct('category');
+        const allRatings = await Question.distinct('rating');
+        console.log("📋 Доступные категории:", allCategories);
+        console.log("📋 Доступные рейтинги:", allRatings);
       }
   
       res.json(questions);
       
     } catch (error) {
-      console.error("❌ Ошибка загрузки вопросов:", error);
+      console.error("❌ Ошибка:", error);
       res.status(500).json({ message: "Ошибка загрузки вопросов", error });
     }
   }
