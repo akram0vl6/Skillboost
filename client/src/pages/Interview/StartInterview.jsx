@@ -1,31 +1,47 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import {DATA_STRUCTURE, LEVELS} from "../../shared/data/categoryData"
-
-
+import { 
+  DATA_STRUCTURE, 
+  LEVELS, 
+  getLanguagesForCategory, 
+  getFrameworksForLanguage 
+} from "../../shared/data/categoryData";
 
 const StartInterview = () => {
   const [questionCount] = useState(5);
   const [category, setCategory] = useState(null);
-  const [tehnalogies, setTechnologies] = useState(null);
-  const [frameworks, setFrameworks] = useState(null);
+  const [technology, setTechnology] = useState(null); // переименовал для ясности
+  const [framework, setFramework] = useState(null);
   const [level, setLevel] = useState(null);
 
   const navigate = useNavigate();
 
-  const isFormComplete = category && tehnalogies && frameworks && level;
+  // Получаем языки для выбранной категории
+  const languages = useMemo(() => 
+    getLanguagesForCategory(category), 
+    [category]
+  );
 
+  // Получаем фреймворки для выбранного языка
+  const frameworks = useMemo(() => 
+    getFrameworksForLanguage(category, technology), 
+    [category, technology]
+  );
+
+  const isFormComplete = category && technology && framework && level;
 
   const startInterview = () => {
     navigate(
-      `/interview?count=${questionCount}&category=${category}&technologies=${tehnalogies}&frameworks=${frameworks}&level=${level}`
+      `/interview?count=${questionCount}&category=${category}&technologies=${technology}&frameworks=${framework}&level=${level}`
     );
   };
 
   return (
     <div className="min-h-screen bg-[var(--bg-main)] py-5 px-4">
       <h1 className="text-4xl font-bold text-[var(--color-text)]">Тренажёр собеседований</h1>
-      {/* ... (текст описания оставляем как есть) ... */}
+      <p className="text-[var(--color-text)] mt-3">
+        Практикуйте технические собеседования с реальными вопросами из IT-компаний
+      </p>
 
       <div className="mt-10">
         <h2 className="text-2xl font-bold text-[var(--color-text)] mb-4">Пройти собеседование</h2>
@@ -40,9 +56,9 @@ const StartInterview = () => {
                 name="category"
                 checked={category === label}
                 onChange={() => {
-                    setCategory(label);
-                    setTechnologies(null); // Сброс при смене категории
-                    setFrameworks(null);
+                  setCategory(label);
+                  setTechnology(null); // Сброс языка
+                  setFramework(null);   // Сброс фреймворка
                 }}
                 className="sr-only peer"
               />
@@ -52,56 +68,60 @@ const StartInterview = () => {
           ))}
         </div>
 
-        {/* ВЫБОР ЯЗЫКА (Динамический) */}
-        {category && (
+        {/* ВЫБОР ЯЗЫКА */}
+        {category && languages.length > 0 && (
           <>
             <h1 className="block text-[var(--color-text)] my-4 text-lg">Выбери язык</h1>
-            <div className="flex flex-col sm:flex-row gap-6">
-              {DATA_STRUCTURE[category].languages.map((label) => (
-                <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
+            <div className="flex flex-wrap gap-4 sm:gap-6">
+              {languages.map((lang) => (
+                <label key={lang} className="flex items-center cursor-pointer text-[var(--color-text)]">
                   <input
                     type="radio"
-                    name="tehnalogies"
-                    checked={tehnalogies === label}
+                    name="technology"
+                    checked={technology === lang}
                     onChange={() => {
-                        setTechnologies(label);
-                        setFrameworks(null); // Сброс при смене языка
+                      setTechnology(lang);
+                      setFramework(null); // Сброс фреймворка при смене языка
                     }}
                     className="sr-only peer"
                   />
                   <span className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:bg-[#049666] relative"></span>
-                  <span className="ml-3 text-lg">{label}</span>
+                  <span className="ml-3 text-lg">{lang}</span>
                 </label>
               ))}
             </div>
           </>
         )}
 
-        {/* ВЫБОР ФРЕЙМВОРКА (Динамический) */}
-        {tehnalogies && (
+        {/* ВЫБОР ФРЕЙМВОРКА */}
+        {technology && frameworks.length > 0 && (
           <>
             <h1 className="block text-[var(--color-text)] my-4 text-lg">Выбери фреймворк</h1>
-            <div className="flex flex-col sm:flex-row gap-6">
-
-              {DATA_STRUCTURE[category].frameworks.map((label) => (
-                <label key={label} className="flex items-center cursor-pointer text-[var(--color-text)]">
+            <div className="flex flex-wrap gap-4 sm:gap-6">
+              {frameworks.map((fw) => (
+                <label key={fw} className="flex items-center cursor-pointer text-[var(--color-text)]">
                   <input
                     type="radio"
-                    name="frameworks"
-                    checked={frameworks === label}
-                    onChange={() => setFrameworks(label)}
+                    name="framework"
+                    checked={framework === fw}
+                    onChange={() => setFramework(fw)}
                     className="sr-only peer"
                   />
                   <span className="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:bg-[#049666] relative"></span>
-                  <span className="ml-3 text-lg">{label}</span>
+                  <span className="ml-3 text-lg">{fw}</span>
                 </label>
               ))}
             </div>
           </>
         )}
 
+        {/* Если для языка нет фреймворков */}
+        {technology && frameworks.length === 0 && (
+          <p className="text-gray-500 mt-4">Для этого языка пока нет доступных фреймворков</p>
+        )}
+
         {/* ВЫБОР УРОВНЯ */}
-        {frameworks && (
+        {framework && (
           <>
             <h1 className="block text-[var(--color-text)] my-4 text-lg">Выбери уровень</h1>
             <div className="flex flex-wrap gap-4 sm:gap-6">

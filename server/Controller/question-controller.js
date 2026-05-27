@@ -55,155 +55,115 @@ class QuestionController {
 
   async catigoryquestion(req, res) {
     try {
-      const { count = 15, category, technologies, frameworks, level } = req.query;
+      const { count = 15, direction, language, framework, level } = req.query;
       
-      console.log("🔍 Получены параметры:", { count, category, technologies, frameworks, level });
+      console.log("🔍 Параметры:", { direction, language, framework, level });
       
       const filter = {};
-      const conditions = [];
-  
-      // 1️⃣ ФИЛЬТРАЦИЯ ПО НАПРАВЛЕНИЮ
-      if (category && category !== 'all') {
-        const categoryLower = category.toLowerCase();
-        
-        const categoryMap = {
-          frontend: [
-            'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
-            'HTML', 'CSS', 'TypeScript', 'Next.js', 'Redux',
-            'Webpack', 'SASS', 'LESS', 'Bootstrap', 'Material-UI', 'jQuery'
-          ],
-          fullstack: [
-            'Frontend', 'JavaScript', 'React', 'Vue', 'Angular', 
-            'HTML', 'CSS', 'TypeScript', 'Next.js', 'Node.js',
-            'Express', 'MongoDB', 'PostgreSQL', 'MySQL', 'Docker',
-            'AWS', 'DevOps', 'Fullstack', 'GraphQL', 'REST API'
-          ],
-          backend: [
-            'Backend', 'Node.js', 'Express', 'Python', 'Django',
-            'Java', 'Spring', 'C#', '.NET', 'Go', 'Rust',
-            'PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'GraphQL',
-            'REST API', 'Microservices', 'Docker', 'Kubernetes',
-            'AWS', 'Azure', 'Linux', 'Nginx', 'Kafka', 'RabbitMQ',
-            'PHP', 'Laravel', 'Ruby', 'Ruby on Rails'
+      
+      // 1. Фильтр по направлению (category)
+      if (direction && direction !== 'all') {
+        filter.category = direction;
+      }
+      
+      // 2. Фильтр по языку - ищем в technologies и frameworks
+      if (language && language !== 'all') {
+        filter.$or = [
+          { technologies: { $regex: language, $options: 'i' } },
+          { frameworks: { $regex: language, $options: 'i' } }
+        ];
+      }
+      
+      // 3. Фильтр по фреймворку - ищем в technologies и frameworks
+      if (framework && framework !== 'all') {
+        const frameworkFilter = {
+          $or: [
+            { technologies: { $regex: framework, $options: 'i' } },
+            { frameworks: { $regex: framework, $options: 'i' } }
           ]
         };
-  
-        if (categoryMap[categoryLower]) {
-          // Ищем по category ИЛИ по полю technologies (строка!)
-          conditions.push({
-            $or: [
-              { category: { $in: categoryMap[categoryLower] } },
-              { technologies: { $in: categoryMap[categoryLower] } }
-            ]
-          });
+        
+        // Если уже есть $or от language, объединяем через $and
+        if (filter.$or) {
+          filter.$and = [
+            { $or: filter.$or },
+            frameworkFilter
+          ];
+          delete filter.$or;
         } else {
-          // Конкретная технология
-          conditions.push({
-            $or: [
-              { category: category },
-              { technologies: category }
-            ]
-          });
+          filter.$or = frameworkFilter.$or;
         }
       }
-  
-      // 2️⃣ ФИЛЬТРАЦИЯ ПО ТЕХНОЛОГИЯМ
-      if (technologies && technologies !== 'all') {
-        // Разбиваем строку на массив
-        const techArray = technologies.split(',').map(t => t.trim()).filter(Boolean);
-        
-        if (techArray.length > 0) {
-          conditions.push({
-            $or: [
-              { technologies: { $in: techArray } },
-              { category: { $in: techArray } },
-              // Ищем в тексте вопроса и ответа
-              { title: { $regex: techArray.join('|'), $options: 'i' } },
-              { question: { $regex: techArray.join('|'), $options: 'i' } },
-              { answer: { $regex: techArray.join('|'), $options: 'i' } }
-            ]
-          });
-        }
-      }
-  
-      // 3️⃣ ФИЛЬТРАЦИЯ ПО ФРЕЙМВОРКАМ
-      if (frameworks && frameworks !== 'all') {
-        const frameworkArray = frameworks.split(',').map(f => f.trim()).filter(Boolean);
-        
-        if (frameworkArray.length > 0) {
-          conditions.push({
-            $or: [
-              { frameworks: { $in: frameworkArray } },
-              { technologies: { $in: frameworkArray } },
-              { category: { $in: frameworkArray } },
-              { title: { $regex: frameworkArray.join('|'), $options: 'i' } },
-              { answer: { $regex: frameworkArray.join('|'), $options: 'i' } }
-            ]
-          });
-        }
-      }
-  
-      // 4️⃣ ФИЛЬТРАЦИЯ ПО УРОВНЮ
+      
+      // 4. Фильтр по уровню - ищем в difficulty и level
       if (level && level !== 'all') {
-        const ratingMap = {
-          'Стажёр': ['1', '2'],
-          'Стажер': ['1', '2'],
-          'Junior': ['1', '2'],
-          'Middle': ['2', '3'],
-          'Senior': ['3', '4'],
-          'Lead': ['4', '5']
-        };
+        const levelSearch = level === 'Стажер' ? 'Стажёр' : level;
         
-        const ratings = ratingMap[level] || ['1', '2'];
-        conditions.push({ rating: { $in: ratings } });
+        if (filter.$and) {
+          filter.$and.push({
+            $or: [
+              { difficulty: { $regex: levelSearch, $options: 'i' } },
+              { level: { $regex: levelSearch, $options: 'i' } }
+            ]
+          });
+        } else if (filter.$or) {
+          filter.$and = [
+            { $or: filter.$or },
+            {
+              $or: [
+                { difficulty: { $regex: levelSearch, $options: 'i' } },
+                { level: { $regex: levelSearch, $options: 'i' } }
+              ]
+            }
+          ];
+          delete filter.$or;
+        } else {
+          filter.$or = [
+            { difficulty: { $regex: levelSearch, $options: 'i' } },
+            { level: { $regex: levelSearch, $options: 'i' } }
+          ];
+        }
       }
-  
-      // Объединяем условия
-      if (conditions.length > 0) {
-        filter.$and = conditions;
-      }
-  
+      
       console.log("📊 Итоговый фильтр:", JSON.stringify(filter, null, 2));
-  
-      // Получаем вопросы
+      
       const questionCount = Math.min(Number(count), 50);
       
-      let questions;
-      try {
-        questions = await Question.aggregate([
-          { $match: filter },
-          { $sample: { size: questionCount } }
-        ]);
-      } catch (error) {
-        console.log("⚠️ $sample не поддерживается, используем find");
-        const allQuestions = await Question.find(filter).lean();
-        
-        // Перемешиваем
-        for (let i = allQuestions.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
-        }
-        
-        questions = allQuestions.slice(0, questionCount);
-      }
-  
-      console.log(`✅ Найдено вопросов: ${questions.length}`);
+      // Получаем вопросы
+      const allQuestions = await Question.find(filter).lean();
       
-      if (questions.length === 0) {
-        console.log("❌ Вопросы не найдены!");
-        
-        // ДЕБАГ: Проверим, какие category и rating есть в БД
-        const allCategories = await Question.distinct('category');
-        const allRatings = await Question.distinct('rating');
-        console.log("📋 Доступные категории:", allCategories);
-        console.log("📋 Доступные рейтинги:", allRatings);
+      // Перемешиваем
+      for (let i = allQuestions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
       }
-  
+      
+      const questions = allQuestions.slice(0, questionCount);
+      
+      console.log(`✅ Найдено: ${questions.length} вопросов`);
+      
+      // Если ничего не найдено
+      if (questions.length === 0) {
+        const categories = await Question.distinct('category');
+        const difficulties = await Question.distinct('difficulty');
+        const levels = await Question.distinct('level');
+        
+        return res.json({
+          questions: [],
+          message: 'Нет вопросов по заданным фильтрам',
+          available: {
+            categories,
+            difficulties,
+            levels
+          }
+        });
+      }
+      
       res.json(questions);
       
     } catch (error) {
       console.error("❌ Ошибка:", error);
-      res.status(500).json({ message: "Ошибка загрузки вопросов", error });
+      res.status(500).json({ message: "Ошибка", error: error.message });
     }
   }
 
